@@ -1,0 +1,128 @@
+{% extends '__main.html' %}
+
+{% block seo_meta %}
+<meta name="title" content="{{ page_data.title }}" />
+<meta name="robots" content="index, nofollow" />
+{% endblock %}
+
+{% block content %}
+<div style="margin: 120px 0px 80px 0px" id="checkout_container">
+	<div class="container">
+		<h3 class="section-header" id="checkout_header">ORDER TRACKER</h3>
+        
+        {% if page_data.show_tracking_data == False %}
+
+        <div class="container" id="order_id_search_box" style="margin-top: 6%;">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6 col-md-12">
+                    <div class="w-100">
+                        <input type="text" class="form-control" placeholder="Order ID" name="order_id" required>
+                        <small style="color: red;" id="track_id_errmsg"></small>
+                    </div>
+                    <button 
+                        class="exclusive btn-ex-red" 
+                        style="margin: 8% auto;"
+                        onclick="trackOrder()">
+                        <span>TRACK NOW</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+
+        {% if page_data.show_tracking_data == True %}
+
+        <div class="container">
+            {% if page_data.tracking_data == None %}
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h5>Invalid Order ID</h5>
+                <h4 *ngIf="orderId" class="w-100" style="color: #e25050;">
+                    {{ page_data.order_id }}
+                </h4>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <p style="text-align: center;">
+                    Please check your order id and <a href="/order_tracker">try again</a>
+                </p>
+            </div>
+
+            {% endif %}
+
+            {% if page_data.tracking_data != None %}
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h5>Tracking Order ID</h5>
+                <h4 *ngIf="orderId" class="w-100" style="color: #e25050;">
+                    {{ page_data.order_id }}
+                </h4>
+            </div>
+    
+            <div class="row d-flex justify-content-center">
+                <div *ngIf="orderService.orderTrackingLog$ | async; else invalidorderid;" class="col-lg-6 col-md-12">
+                    
+                    {% for track_item in page_data.tracking_data %}
+                        <div class="tracking-item">
+                            {% if track_item.title == 'Order Canceled' %}
+                            <div class="tracking-icon order-canceled">
+                                <i class="fas fa-ban fa-2x"></i>
+                            </div>
+                            {% endif %}
+                            {% if track_item.title != 'Order Canceled' %}
+                            <div class="tracking-icon active-stage">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                            </div>
+                            {% endif %}
+                            <div class="tracking-date">{{ track_item.logDateTime }}</div>
+                            <div class="tracking-content">
+                                <h6>{{ track_item.title }}</h6>
+                                <p>{{ track_item.description }}</p>
+                            </div>
+                        </div>
+                        
+                    {% endfor %}
+                </div>
+    
+                <div class="col-12" style="margin-top: 30px;">
+                    <p style="text-align: center;">
+                        Do you want to track another order? <a href="/order_tracker">Click here</a>
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        {% endif %}
+
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block additional_scripts %}
+
+<script>
+    var tracking_dates = document.getElementsByClassName("tracking-date");
+    console.log(tracking_dates.length);
+    for(i = 0; i < tracking_dates.length; i++) {
+        var iso_date = tracking_dates[i].innerText.split(".")[0] + ".000Z";
+        var local_date = new Date(new Date(iso_date).toString());
+        tracking_dates[i].innerText = moment(local_date).format("dddd, MMMM Do YYYY, h:mm a");
+    }
+
+    function trackOrder() {
+        var order_id = document.getElementsByName("order_id")[0].value;
+        var track_id_errmsg = document.getElementById("track_id_errmsg");
+
+        track_id_errmsg.innerText = "";
+
+        if (order_id === "") {
+            track_id_errmsg.innerText = "Please provide an order id to track"
+        } else {
+            window.location.href = '/order_tracker?track_id=' + order_id;
+        }
+    }
+</script>
+
+{% endblock %}
