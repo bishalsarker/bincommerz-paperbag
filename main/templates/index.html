@@ -80,6 +80,7 @@
 	<div class="container">
 		<div class="row d-flex justify-content-center">
 			{% for cat in row.data%}
+			{% if cat.slug != 'featured'%}
 			<div class="col-lg-4 col-md-6 col-sm-12">
 				<div class="card">
 					<img
@@ -103,6 +104,7 @@
 					</div>
 				</div>
 			</div>	
+			{% endif %}
 			{% endfor%}
 		</div>
 	</div>
