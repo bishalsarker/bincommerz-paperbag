@@ -16,9 +16,12 @@
 
 <p style="display: none;">{{ shop_info.description }}</p>
 
+{% for row in page_data.template_data %}
+
+{% if row.type == 'slider' %}
 <div id="banner" class="carousel slide" data-ride="carousel">
 	<ol class="carousel-indicators">
-	{% for slide in page_data.main_slider.slides %}
+	{% for slide in row.data.slides %}
 		{% if slide.default == True %}
 		<li data-target="#banner" data-slide-to="{{loop.index - 1}}" class="active"></li>
 		{% else %}
@@ -27,7 +30,7 @@
 	{% endfor%}
 	</ol>
 	<div class="carousel-inner">
-	{% for slide in page_data.main_slider.slides %}
+	{% for slide in row.data.slides %}
 		{% if slide.default == True %}
 		<div class="carousel-item active">
 			<img
@@ -66,14 +69,17 @@
 		<span class="sr-only">Next</span>
 	</a>
 </div>
-<div style="margin: 30px 0px 80px 0px">
+{% endif %}
+
+{% if row.type == 'category_section' %}
+<div class="home-section" style="margin: 30px 0px 80px 0px">
 	<h3 class="section-header" style="margin-top: 50px">Explore Our Collections</h3>
 	<div style="text-align: center; margin-bottom: 50px">
 		<i class="fas fa-arrow-down"></i>
 	</div>
 	<div class="container">
 		<div class="row d-flex justify-content-center">
-			{% for cat in page_data.category_list%}
+			{% for cat in row.data%}
 			<div class="col-lg-4 col-md-6 col-sm-12">
 				<div class="card">
 					<img
@@ -100,58 +106,57 @@
 			{% endfor%}
 		</div>
 	</div>
+</div>
+{% endif %}
 
-	<div style="margin: 30px 0px 80px 0px">
-		<h3 class="section-header" style="margin-top: 50px">Featured Products</h3>
-		<div style="text-align: center; margin-bottom: 50px">
-			<i class="fas fa-arrow-down"></i>
-		</div>
-
-		<div class="container">
-			<div class="row d-flex justify-content-center">
-				{% for item in page_data.product_list %}
-				<div class="col-lg-4 col-md-6 col-sm-12">
-					<div class="card product-card">
-						<img
-							src="{{ item.imageUrl }}"
-							class="card-img-top"
-							alt="..."
-						/>
-						<div class="card-body">
-							<a href="/product?id={{ item.id }}"><h5>{{ item.name }}</h5></a>
-							{% if item.discount == 0.00 %}
-							<p class="card-text price">Tk {{ item.price }}</p>
-							{% endif %}
-
-							{% if item.discount > 0.00 %}
-							<p class="price-tag">Tk. 
-								<span style="color: rgb(39, 39, 39); text-decoration: line-through;">{{ item.price }}</span>
-								<span>{{ item.price - (item.price * (item.discount / 100)) }}</span>
-								<span>({{ item.discount }}% OFF)</span>
-							</p>
-							{% endif %}
-							<button
-								class="exclusive btn-ex-red w-100"
-								style="margin-top: 8%"
-								onclick="addToCart('{{ item.id }}', '{{ item.name }}', '{{ item.imageUrl }}', '{{ item.price - (item.price * (item.discount / 100)) }}', 1);"
-							>
-								<span>ADD TO CART</span>
-							</button>
-						</div>
-					</div>
-				</div>
-				{% else %}
-				<h4><em>Something went wrong! No products found</em></h4>
-				{% endfor %}
-			</div>
-		</div>
+{% if row.type == 'product_section' %}
+<div class="home-section" style="margin: 30px 0px 80px 0px">
+	<h3 class="section-header" style="margin-top: 50px">Featured Products</h3>
+	<div style="text-align: center; margin-bottom: 50px">
+		<i class="fas fa-arrow-down"></i>
 	</div>
 
-	<!-- <div style="margin: 30px 0px 80px 0px">
-		<div class="container">
-			
+	<div class="container">
+		<div class="row d-flex justify-content-center">
+			{% for item in row.data %}
+			<div class="col-lg-4 col-md-6 col-sm-12">
+				<div class="card product-card">
+					<img
+						src="{{ item.imageUrl }}"
+						class="card-img-top"
+						alt="..."
+					/>
+					<div class="card-body">
+						<a href="/product?id={{ item.id }}"><h5>{{ item.name }}</h5></a>
+						{% if item.discount == 0.00 %}
+						<p class="card-text price">Tk {{ item.price }}</p>
+						{% endif %}
+
+						{% if item.discount > 0.00 %}
+						<p class="price-tag">Tk. 
+							<span style="color: rgb(39, 39, 39); text-decoration: line-through;">{{ item.price }}</span>
+							<span>{{ item.price - (item.price * (item.discount / 100)) }}</span>
+							<span>({{ item.discount }}% OFF)</span>
+						</p>
+						{% endif %}
+						<button
+							class="exclusive btn-ex-red w-100"
+							style="margin-top: 8%"
+							onclick="addToCart('{{ item.id }}', '{{ item.name }}', '{{ item.imageUrl }}', '{{ item.price - (item.price * (item.discount / 100)) }}', 1);"
+						>
+							<span>ADD TO CART</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			{% else %}
+			<h4><em>Something went wrong! No products found</em></h4>
+			{% endfor %}
 		</div>
-	</div> -->
+	</div>
 </div>
+{% endif %}
+
+{% endfor %}
 
 {% endblock %}

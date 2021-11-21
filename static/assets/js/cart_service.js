@@ -202,15 +202,34 @@ function addToCart(product_id, product_title, image, unit_price, quantity) {
 	updateCartCount();
 	updateCartTotalPrice();
 	setCheckoutButton();
+
+	var cartnotifier = document.getElementById("cart-notifier");
+	if (cartnotifier.style.display !== 'block') {
+		cartnotifier.style.display = 'block';
+
+		setTimeout(function() {
+			cartnotifier.style.display = 'none';
+		}, 3000);
+	}
+}
+
+function buyNow(product_id, product_title, image, unit_price, quantity) {
+	addToCart(product_id, product_title, image, unit_price, quantity);
+	window.location.href = "/checkout";
 }
 
 function updateCartCount() {
 	var cart_items = JSON.parse(localStorage.getItem('cart_items'));
 	var lblCartCount = document.getElementById('lblCartCount');
-	if(lblCartCount) {
+	var lblCartCountBottom = document.getElementById('lblCartCountBottom');
+
+	if (lblCartCount) {
 		lblCartCount.innerText = cart_items.length;
 	}
-	
+
+	if (lblCartCountBottom) {
+		lblCartCountBottom.innerText = cart_items.length;
+	}	
 
 	var total_cart_items_count = document.getElementById(
 		'total_cart_items_count'

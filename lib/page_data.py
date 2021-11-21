@@ -1,28 +1,24 @@
+# from lib.shop import get_categories, get_category, get_page, get_pages, get_product_data, get_product_list, get_search_data, get_shop_info, get_slider, get_tracking_data
 
-from lib.shop import get_categories, get_category, get_page, get_pages, get_product_data, get_product_list, get_search_data, get_shop_info, get_slider, get_tracking_data
+import lib.shop as shop
 
 def get_index_data():
     page_model = {}
-    category_list = filter_categories(get_categories())
-    product_list = get_product_list('featured', 'newest')
-    main_slider = get_slider('default')
 
     page_model = {
         "title": None,
-        "category_list": category_list,
-        "product_list": product_list,
         "show_cart": True,
-        "main_slider": main_slider
+        "template_data": shop.resolve_template()
     }
 
     return page_model
 
 def get_products_by_slug(cat_slug):
     page_model = {}
-    category_data = get_category(cat_slug)
+    category_data = shop.get_category(cat_slug)
     cat_name = category_data['name']
     title = category_data['name']
-    product_list = get_product_list(category_data['slug'], 'newest')
+    product_list = shop.get_product_list(category_data['slug'], 'newest')
 
     page_model = {
         "title": title,
@@ -41,7 +37,7 @@ def get_product_details(product_id):
     title = ''
 
     if product_id != None:
-        product_data = get_product_data(product_id)
+        product_data = shop.get_product_data(product_id)
     
     if product_data != None:
         title = product_data['name']
@@ -63,7 +59,7 @@ def get_order_tracking_data(order_id):
     tracking_data = None
 
     if order_id != None:
-        tracking_data = get_tracking_data(order_id)
+        tracking_data = shop.get_tracking_data(order_id)
         show_tracking_data = True
     
     page_model = {
@@ -83,7 +79,7 @@ def get_search_results(q):
     count = 0
 
     if q != None and q != '':
-        search_results = get_search_data(q)
+        search_results = shop.get_search_data(q)
         show_search_results = True
         
         if search_results != None:
@@ -116,7 +112,7 @@ def get_checkout_page_data():
 def get_page_data(category, slug):
     page_model = {}
 
-    page_data = get_page(slug, category)
+    page_data = shop.get_page(slug, category)
 
     page_model = {
         "title": page_data['pageTitle'],
@@ -136,13 +132,13 @@ def filter_categories(all_cats):
     return filtered
 
 def get_all_pages():
-    page_list = get_pages()
+    page_list = shop.get_pages()
 
     return page_list
 
 
 def get_nav_categories():
-    all_cats = get_categories()
+    all_cats = shop.get_categories()
     shown = []
     hidden = []
 
@@ -159,4 +155,4 @@ def get_nav_categories():
     return shown, hidden
 
 def get_nav_shop_info():
-    return get_shop_info()
+    return shop.get_shop_info()

@@ -15,7 +15,7 @@
 			{% endif %}
 		</title>
 		{% block seo_meta %}{% endblock %}
-		<link rel="icon" type="image/x-icon" href="favicon.ico" />
+		<link rel="icon" type="image/x-icon" href="{{ shop_info.logo }}" />
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css"
@@ -139,7 +139,7 @@
 								onclick="openCart()"
 								alt="My Cart"
 							>
-								<i class="fas fa-shopping-bag"></i>
+								<i class="fas fa-shopping-cart"></i>
 								<span
 									class="badge badge-danger cart_number"
 									id="lblCartCount"
@@ -157,7 +157,7 @@
 								alt="My Orders"
 							>
 								<i class="fas fa-envelope"></i>
-								<span class="badge badge-danger cart_number" id="lblOrderCount">0</span>
+								<span class="badge badge-danger cart_number" id="lblOrderCountBottom">0</span>
 							</a>
 						</li>					
 						{% endif %}
@@ -260,7 +260,7 @@
 			</div>
 		</div>
 		{% endif %}
-
+		
 		<div class="footer">
 			<div class="container" >
 				<div class="row">
@@ -344,6 +344,26 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div id="cart-notifier" class="cart-notifier">
+			<p style="color: white; font-weight: bold; text-align: center; margin: 0;">New items added!</p>
+		</div>
+
+		<div class="cart-bottom">
+			<div
+				style="cursor: pointer"
+				data-toggle="modal"
+				data-target="#cart_modal"
+				onclick="openCart()"
+				alt="My Cart">
+				<i class="fas fa-shopping-cart fa-3x"></i>
+			</div>
+			<span
+				class="badge badge-danger cart_number_bottom"
+				id="lblCartCountBottom"
+				>0</span
+			>
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

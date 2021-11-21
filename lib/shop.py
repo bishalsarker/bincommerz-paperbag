@@ -14,6 +14,41 @@ route_params = {
     "get_slider": "widgets/slider/get/"
 }
 
+def resolve_template():
+    template_rows = get_configurations()['home_template']
+    sorted_rows = sorted(template_rows, key=lambda x : x['row_number'], reverse=False)
+
+    resolved_template = []
+    for row in sorted_rows:
+        data = None
+        type = None
+
+        if row['type'] == "slider":
+            type = "slider"
+            data = get_slider(row['resolve'])
+
+        if row['type'] == "section":
+            if row['resolve']['type'] == 'category':
+                type = 'category_section'
+                data = get_categories()
+            
+            if row['resolve']['type'] == 'product':
+                type = 'product_section'
+                data = get_product_list(row['resolve']['value'], 'newest')
+        
+        if data != None and type !=None:
+            resolved_row = {
+                'type': type,
+                'data': data
+            }
+
+            resolved_template.append(resolved_row)
+
+
+    print(resolved_template)
+    return resolved_template
+
+
 def get_categories():
     categories = []
     url = build_url(route_params['get_categories'])

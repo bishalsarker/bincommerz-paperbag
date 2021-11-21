@@ -1,5 +1,27 @@
 {
     "static_files_endpoint": "https://bincommerzstaticstorage.blob.core.windows.net",
     "api_host": "http://bincommerz.azurewebsites.net/shop/",
-    "shop_id": "81df6352bac74756b698e6ba8e3cdd5c"
+    "shop_id": "81df6352bac74756b698e6ba8e3cdd5c",
+    "home_template": [
+        {
+            "row_number": 1,
+            "type": "slider",
+            "resolve": "default"
+        },
+        {
+            "row_number": 2,
+            "type": "section",
+            "resolve": {
+                "type": "category"
+            }
+        },
+        {
+            "row_number": 3,
+            "type": "section",
+            "resolve": {
+                "type": "products",
+                "value": "featured"
+            }
+        }
+    ]
 }

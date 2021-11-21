@@ -97,6 +97,13 @@
 						>
 							<span>ADD TO CART</span>
 						</button>
+            <button
+							class="exclusive btn-ex-blue w-100"
+							style="margin-top: 8%"
+							onclick="buyNow('{{ item.id }}', '{{ item.name }}', '{{ item.imageUrl }}', '{{ item.price - (item.price * (item.discount / 100)) }}', 1);"
+						>
+							<span>BUY NOW</span>
+						</button>
 					</div>
 				</div>
 			</div>
