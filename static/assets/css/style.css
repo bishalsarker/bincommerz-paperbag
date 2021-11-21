@@ -220,6 +220,10 @@ html, body{
 	margin-right: 30px;
 }
 
+.dropdown-menu {
+	min-width: 15rem !important;
+}
+
 .dropdown-item {
 	display: block;
 	font-size: 0.8125em;
@@ -236,6 +240,16 @@ html, body{
 .dropdown-item:hover {
 	background: #ffff;
 	color: #000;
+}
+
+.dropdown-submenu {
+	position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -1px;
 }
 
 #icon-nav li a {

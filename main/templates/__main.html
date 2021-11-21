@@ -56,14 +56,47 @@
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<ul id="menu-nav" class="navbar-nav mr-auto mt-2 mt-lg-0">
 					{% for cat in nav_items.shown %}
-					<li
-						class="nav-item"
-						[class.active]="navbarService.activeNavItem === 'order_tracking'"
-					>
-						<a class="nav-link" href="/products/{{cat.slug}}"
-							>{{ cat.name }}</a
+						{% if cat.subcategories|length == 0 %}
+						<li
+							class="nav-item"
+							[class.active]="navbarService.activeNavItem === 'order_tracking'"
 						>
-					</li>
+							<a class="nav-link" href="/products/{{cat.slug}}"
+								>{{ cat.name }}</a
+							>
+						</li>
+						{% endif %}
+						{% if cat.subcategories|length > 0 %}
+						<li
+							class="nav-item dropdown"
+						>
+							<a
+								class="nav-link dropdown-toggle"
+								href="#"
+								id="navbarDropdown"
+								role="button"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								{{ cat.name }}
+							</a>
+							<div
+								class="dropdown-menu w-100"
+								aria-labelledby="navbarDropdown"
+							>
+								{% for subcat in cat.subcategories %}
+								<a
+									class="dropdown-item"
+									style="cursor: pointer"
+									href="/products/{{subcat.slug}}"
+								>
+									{{ subcat.name }}
+								</a>
+								{% endfor %}
+							</div>
+						</li>
+						{% endif %}
 					{% endfor %}
 					{% if nav_items.hidden|length > 0 %}
 					<li
@@ -80,10 +113,7 @@
 						>
 							More
 						</a>
-						<div
-							class="dropdown-menu w-100"
-							aria-labelledby="navbarDropdown"
-						>
+						<div class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
 							{% for cat in nav_items.hidden %}
 							<a
 								class="dropdown-item"
@@ -96,14 +126,14 @@
 						</div>
 					</li>
 					{% endif %}
-					<li
+					<!-- <li
 						class="nav-item"
 						[class.active]="navbarService.activeNavItem === 'order_tracking'"
 					>
 						<a class="nav-link" href="/order_tracker"
 							>Order Tracking</a
 						>
-					</li>
+					</li> -->
 					{% if nav_items.pages | length > 0%}
 					{% for navlink in nav_items.pages %}
 					<li

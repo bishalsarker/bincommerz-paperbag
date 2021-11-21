@@ -145,7 +145,7 @@ def get_nav_categories():
     i = 0
     for cat in all_cats:
         if cat['slug'] != 'featured':
-            if i <= 3:
+            if i <= 5:
                 shown.append(cat)
             else:
                 hidden.append(cat)
