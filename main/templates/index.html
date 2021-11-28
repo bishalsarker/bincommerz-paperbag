@@ -81,7 +81,7 @@
 	<div class="container">
 		<div class="demo w-100">
 			<div class="item">
-				<ul id="content-slider" class="content-slider">
+				<ul id="content-slider-1" class="content-slider">
 					{% for cat in row.data%}
 					{% if cat.slug != 'featured'%}
 					<li>
@@ -112,56 +112,6 @@
 				</ul>
 			</div>
 		</div>
-		<style>
-			ul{
-				list-style: none outside none;
-				padding-left: 0;
-				margin: 0;
-			}
-			.demo .item{
-				margin-bottom: 60px;
-			}
-			.content-slider li{
-				text-align: center;
-				color: #FFF;
-			}
-			.content-slider h3 {
-				margin: 0;
-				padding: 70px 0;
-			}
-			.demo{
-				width: 800px;
-			}
-			.lSAction > a {
-				background-color: #191733;
-				border-radius: 100%;
-			}
-		</style>
-		<!-- <div class="row d-flex justify-content-center">
-			{% for cat in row.data%}
-			{% if cat.slug != 'featured'%}
-			<div class="col-lg-4 col-md-6 col-sm-12">
-				<div class="card">
-					<img
-						src="{{cat.imageUrl}}"
-						class="card-img-top"
-						alt="..."
-					/>
-					<div class="card-body">
-						<h5 class="card-title">{{cat.name}}</h5>
-						<button
-							class="exclusive btn-ex-black w-100"
-							style="margin-top: 8%"
-							onclick="window.location.href = '/products/{{cat.slug}}'"
-						>
-							<span>SEE PRODUCTS</span>
-						</button>
-					</div>
-				</div>
-			</div>	
-			{% endif %}
-			{% endfor%}
-		</div> -->
 	</div>
 </div>
 {% endif %}
@@ -174,41 +124,45 @@
 	</div>
 
 	<div class="container">
-		<div class="row d-flex justify-content-center">
-			{% for item in row.data %}
-			<div class="col-lg-4 col-md-6 col-sm-12">
-				<div class="card product-card">
-					<img
-						src="{{ item.imageUrl }}"
-						class="card-img-top"
-						alt="..."
-					/>
-					<div class="card-body">
-						<a href="/product?id={{ item.id }}"><h5>{{ item.name }}</h5></a>
-						{% if item.discount == 0.00 %}
-						<p class="card-text price">Tk {{ item.price }}</p>
-						{% endif %}
+		<div class="demo w-100">
+			<div class="item">
+				<ul id="content-slider-2" class="content-slider">
+					{% for item in row.data %}
+					<li>
+						<div class="card product-card">
+							<img
+								src="{{ item.imageUrl }}"
+								class="card-img-top"
+								alt="..."
+							/>
+							<div class="card-body">
+								<a href="/product?id={{ item.id }}"><h5>{{ item.name }}</h5></a>
+								{% if item.discount == 0.00 %}
+								<p class="card-text price">Tk {{ item.price }}</p>
+								{% endif %}
 
-						{% if item.discount > 0.00 %}
-						<p class="price-tag">Tk. 
-							<span style="color: rgb(39, 39, 39); text-decoration: line-through;">{{ item.price }}</span>
-							<span>{{ item.price - (item.price * (item.discount / 100)) }}</span>
-							<span>({{ item.discount }}% OFF)</span>
-						</p>
-						{% endif %}
-						<button
-							class="exclusive btn-ex-red w-100"
-							style="margin-top: 8%"
-							onclick="addToCart('{{ item.id }}', '{{ item.name }}', '{{ item.imageUrl }}', '{{ item.price - (item.price * (item.discount / 100)) }}', 1);"
-						>
-							<span>ADD TO CART</span>
-						</button>
-					</div>
-				</div>
+								{% if item.discount > 0.00 %}
+								<p class="price-tag">Tk. 
+									<span style="color: rgb(39, 39, 39); text-decoration: line-through;">{{ item.price }}</span>
+									<span>{{ item.price - (item.price * (item.discount / 100)) }}</span>
+									<span>({{ item.discount }}% OFF)</span>
+								</p>
+								{% endif %}
+								<button
+									class="exclusive btn-ex-red w-100"
+									style="margin-top: 8%"
+									onclick="addToCart('{{ item.id }}', '{{ item.name }}', '{{ item.imageUrl }}', '{{ item.price - (item.price * (item.discount / 100)) }}', 1);"
+								>
+									<span>ADD TO CART</span>
+								</button>
+							</div>
+						</div>
+					</li>
+					{% else %}
+					<h4><em>Something went wrong! No products found</em></h4>
+					{% endfor %}
+				</ul>
 			</div>
-			{% else %}
-			<h4><em>Something went wrong! No products found</em></h4>
-			{% endfor %}
 		</div>
 	</div>
 </div>
@@ -222,7 +176,28 @@
 <script src="/assets/js/lightslider.js"></script>
 <script>
 	$(document).ready(function() {
-		$("#content-slider").lightSlider({
+		$("#content-slider-1").lightSlider({
+			loop: false,
+			keyPress: true,
+			responsive : [
+				{
+					breakpoint:800,
+					settings: {
+						item:3,
+						slideMove:1,
+						slideMargin:6,
+					}
+				},
+				{
+					breakpoint:480,
+					settings: {
+						item: 1,
+						slideMove:1
+					}
+				}
+			]
+		});
+		$("#content-slider-2").lightSlider({
 			loop: false,
 			keyPress: true,
 			responsive : [

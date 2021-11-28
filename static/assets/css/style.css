@@ -790,6 +790,31 @@ ul.footer_box li a:hover {
 	color: rgb(12, 12, 12);
 }
 
+/* Product Slider */
+ul {
+	list-style: none outside none;
+	padding-left: 0;
+	margin: 0;
+}
+.demo .item{
+	margin-bottom: 60px;
+}
+.content-slider li{
+	text-align: center;
+	color: #FFF;
+}
+.content-slider h3 {
+	margin: 0;
+	padding: 70px 0;
+}
+.demo{
+	width: 800px;
+}
+.lSAction > a {
+	background-color: #191733;
+	border-radius: 100%;
+}
+
 @media (max-width: 576px) {
 	.navbar {
 		padding: 1rem;
