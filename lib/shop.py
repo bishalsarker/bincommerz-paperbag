@@ -22,12 +22,18 @@ def resolve_template():
     for row in sorted_rows:
         data = None
         type = None
+        title = None
 
         if row['type'] == "slider":
             type = "slider"
             data = get_slider(row['resolve'])
 
         if row['type'] == "section":
+            title = row['resolve']['title']
+
+            if title == None:
+                title = ''
+
             if row['resolve']['type'] == 'category':
                 type = 'category_section'
                 data = get_categories()
@@ -39,7 +45,8 @@ def resolve_template():
         if data != None and type !=None:
             resolved_row = {
                 'type': type,
-                'data': data
+                'data': data,
+                'title': title
             }
 
             resolved_template.append(resolved_row)
