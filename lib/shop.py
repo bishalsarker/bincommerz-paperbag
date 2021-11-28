@@ -44,8 +44,6 @@ def resolve_template():
 
             resolved_template.append(resolved_row)
 
-
-    print(resolved_template)
     return resolved_template
 
 
@@ -57,6 +55,7 @@ def get_categories():
 
     if response != None:
         categories = resolve_images(response, "imageUrl")
+        categories = sorted(categories, key=lambda x: x['order'], reverse=False)
 
     return categories
 
@@ -92,8 +91,6 @@ def get_slider(sliderid):
             i = i + 1
         
         slider["slides"] = slides
-
-    print(slider)
 
     return slider
 
