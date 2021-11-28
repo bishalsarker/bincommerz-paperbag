@@ -124,6 +124,13 @@
                     <h4>Description</h4>
                 </div>
                 <div id="product_desc_quill" class="col-12" style="margin-top: 20px;"></div>
+                <script>
+                    var desc_html = document.getElementById("product_desc_quill");
+
+                    if (desc_html) {
+                        desc_html.innerHTML = '{{ page_data.product_data.description }}';
+                    }
+                </script>
                 <style>
                     #product_desc_quill > p > img {
                         width: 100%;
@@ -152,12 +159,6 @@
 
 <script>
 	$(document).ready(function () {
-        var desc_html = document.getElementById("product_desc_quill");
-
-        if (desc_html) {
-            desc_html.innerHTML = '{{ page_data.product_data.description }}';
-        }
-
         $('.xzoom, .xzoom-gallery').xzoom({
             zoomWidth: 400,
             title: true,
