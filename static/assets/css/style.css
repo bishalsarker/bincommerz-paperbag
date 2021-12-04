@@ -815,6 +815,14 @@ ul {
 	border-radius: 100%;
 }
 
+.view-all-link {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+	text-decoration: none;
+}
+
 @media (max-width: 576px) {
 	.navbar {
 		padding: 1rem;
@@ -835,6 +843,23 @@ ul {
     .card {
         margin-bottom: 50px;
     }
+
+	.card-body h5 {
+		font-size: 1.05rem;
+	}
+
+	.price, .price-tag {
+		font-size: 0.8em;
+	}
+
+	.btn-ex-red span, .btn-ex-black span {
+		font-size: 1rem;
+    	padding: 3px 3px;
+	}
+
+	.section-header {
+		font-size: 2rem;
+	}
 
 	#product_details {
 		margin-top: 80px;

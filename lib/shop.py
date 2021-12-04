@@ -40,13 +40,16 @@ def resolve_template():
             
             if row['resolve']['type'] == 'product':
                 type = 'product_section'
-                data = get_product_list(row['resolve']['value'], 'newest')
+                data = {
+                    'slug': row['resolve']['value'],
+                    "products": get_product_list(row['resolve']['value'], 'newest')[0:9]
+                }
         
         if data != None and type !=None:
             resolved_row = {
                 'type': type,
                 'data': data,
-                'title': title
+                'title': title,
             }
 
             resolved_template.append(resolved_row)

@@ -11,6 +11,7 @@
 <meta property="og:description" content="{{ shop_info.description }}" />
 <meta property="og:image" content="{{ shop_info.logo }}" />
 <style></style>
+<script>var sliders = [];</script>
 {% endblock %}
 
 {% block content %}
@@ -81,7 +82,7 @@
 	<div class="container">
 		<div class="demo w-100">
 			<div class="item">
-				<ul id="content-slider-1" class="content-slider">
+				<ul id="row-{{ loop.index }}" class="content-slider">
 					{% for cat in row.data%}
 					{% if cat.slug != 'featured'%}
 					<li>
@@ -92,7 +93,7 @@
 								alt="..."
 							/>
 							<div class="card-body">
-								<h5 class="card-title">{{cat.name}}</h5>
+								<h5 style="color: black;" class="card-title">{{cat.name}}</h5>
 								<!-- <p class="card-text">
 									Some quick example text to build on the card title
 									and make up the bulk of the card's content.
@@ -110,6 +111,7 @@
 					{% endif %}
 					{% endfor%}
 				</ul>
+				<script>sliders.push({ id: 'row-{{ loop.index }}', type: 'category' });</script>
 			</div>
 		</div>
 	</div>
@@ -126,8 +128,8 @@
 	<div class="container">
 		<div class="demo w-100">
 			<div class="item">
-				<ul id="content-slider-2" class="content-slider">
-					{% for item in row.data %}
+				<ul id="row-{{ loop.index }}" class="content-slider">
+					{% for item in row.data.products %}
 					<li>
 						<div class="card product-card">
 							<img
@@ -162,6 +164,10 @@
 					<h4><em>Something went wrong! No products found</em></h4>
 					{% endfor %}
 				</ul>
+				<script>sliders.push({ id: 'row-{{ loop.index }}', type: 'product' });</script>
+				<div class="view-all-link">
+					<a style="text-decoration: none;" href="/products/{{ row.data.slug }}">View All</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -176,48 +182,62 @@
 <script src="/assets/js/lightslider.js"></script>
 <script>
 	$(document).ready(function() {
-		$("#content-slider-1").lightSlider({
-			loop: false,
-			keyPress: true,
-			responsive : [
-				{
-					breakpoint:800,
-					settings: {
-						item:3,
-						slideMove:1,
-						slideMargin:6,
-					}
-				},
-				{
-					breakpoint:480,
-					settings: {
-						item: 1,
-						slideMove:1
-					}
-				}
-			]
-		});
-		$("#content-slider-2").lightSlider({
-			loop: false,
-			keyPress: true,
-			responsive : [
-				{
-					breakpoint:800,
-					settings: {
-						item:3,
-						slideMove:1,
-						slideMargin:6,
-					}
-				},
-				{
-					breakpoint:480,
-					settings: {
-						item: 1,
-						slideMove:1
-					}
-				}
-			]
-		});
+		sliders.forEach((item) => {
+			if (item.type === 'category') {
+				initCategorySlider(item.id);
+			} else {
+				initProductSlider(item.id);
+			}
+		})
 	});
+
+	function initCategorySlider(element_id) {
+		$("#" + element_id).lightSlider({
+			loop: false,
+			keyPress: true,
+			responsive : [
+				{
+					breakpoint:800,
+					settings: {
+						item:3,
+						slideMove:1,
+						slideMargin:6,
+					}
+				},
+				{
+					breakpoint:480,
+					settings: {
+						item: 1,
+						slideMove:1
+					}
+				}
+			]
+		});
+	}
+
+	function initProductSlider(element_id) {
+		$("#" + element_id).lightSlider({
+			loop: false,
+			keyPress: true,
+			responsive : [
+				{
+					breakpoint:800,
+					settings: {
+						item:4,
+						slideMove:1,
+						slideMargin:6,
+					}
+				},
+				{
+					breakpoint:480,
+					settings: {
+						item: 2,
+						slideMove:1
+					}
+				}
+			]
+		});
+	}
+
 </script>
 {% endblock %}

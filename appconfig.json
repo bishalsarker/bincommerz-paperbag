@@ -1,7 +1,7 @@
 {
     "static_files_endpoint": "https://bincommerzstaticstorage.blob.core.windows.net",
     "api_host": "http://bincommerz.azurewebsites.net/shop/",
-    "shop_id": "81df6352bac74756b698e6ba8e3cdd5c",
+    "shop_id": "c186a01b40e849d9987d03753b444cfd",
     "home_template": [
         {
             "row_number": 1,
@@ -12,15 +12,62 @@
             "row_number": 2,
             "type": "section",
             "resolve": {
-                "type": "category"
+                "type": "category",
+                "title": "Shop by Category"
             }
         },
         {
             "row_number": 3,
             "type": "section",
             "resolve": {
-                "type": "products",
-                "value": "featured"
+                "type": "product",
+                "value": "featured",
+                "title": "Featured Products"
+            }
+        },
+        {
+            "row_number": 4,
+            "type": "section",
+            "resolve": {
+                "type": "product",
+                "value": "flash-sale",
+                "title": "Flash Sale"
+            }
+        },
+        {
+            "row_number": 5,
+            "type": "section",
+            "resolve": {
+                "type": "product",
+                "value": "tws-earbuds",
+                "title": "TWS Earbuds"
+            }
+        },
+        {
+            "row_number": 6,
+            "type": "section",
+            "resolve": {
+                "type": "product",
+                "value": "Earphone-deals",
+                "title": "Earphone"
+            }
+        },
+        {
+            "row_number": 7,
+            "type": "section",
+            "resolve": {
+                "type": "product",
+                "value": "smartwatch-deals",
+                "title": "Smartwatches"
+            }
+        },
+        {
+            "row_number": 8,
+            "type": "section",
+            "resolve": {
+                "type": "product",
+                "value": "charging-accessories",
+                "title": "Chargers"
             }
         }
     ]
