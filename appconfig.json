@@ -1,6 +1,6 @@
 {
     "static_files_endpoint": "https://bincommerzstaticstorage.blob.core.windows.net",
-    "api_host": "http://bincommerz.azurewebsites.net/shop/",
+    "api_host": "https://localhost:5001/shop/",
     "shop_id": "c186a01b40e849d9987d03753b444cfd",
     "home_template": [
         {
@@ -70,5 +70,8 @@
                 "title": "Chargers"
             }
         }
+    ],
+    "social_links": [
+        { "type": "facebook", "url": "https://www.facebook.com/trinetra.official/" }
     ]
 }

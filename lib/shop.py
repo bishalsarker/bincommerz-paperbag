@@ -115,6 +115,17 @@ def get_pages():
 
     return pages
 
+def get_social_links():
+    # social_links = []
+    # url = build_url(route_params['get_pages'])
+
+    # response = get(url)
+
+    # if response != None:
+    #     pages = response
+
+    return get_configurations()['social_links']
+
 def get_page(slug, category):
     page_data = None
     params = "cat=" + category + "&slug=" + slug

@@ -136,6 +136,10 @@ def get_all_pages():
 
     return page_list
 
+def get_social_links():
+    # page_list = shop.get_social_links()
+
+    return shop.get_social_links()
 
 def get_nav_categories():
     all_cats = shop.get_categories()

@@ -300,24 +300,30 @@
 							<h4>FOLLOW US</h4>
 
 							<ul class="nav">
+								{% for social_link in footer_items.social_links %}
+								{% if social_link.type ==  'facebook' %}
 								<li class="nav-item">
 									<a
 										class="nav-link active"
-										href="https://www.facebook.com/trinetra.official/"
+										href="{{ social_link.url }}"
 										style="font-size: 2rem; padding-left: 0"
 									>
 										<i class="fab fa-facebook"></i>
 									</a>
 								</li>
+								{% endif %}
+								{% if social_link.type ==  'instagram' %}
 								<li class="nav-item">
 									<a
 										class="nav-link"
-										href="https://www.instagram.com/trinetraa8/"
+										href="{{ social_link.url }}"
 										style="font-size: 2rem"
 									>
 										<i class="fab fa-instagram"></i>
 									</a>
 								</li>
+								{% endif %}
+								{% endfor %}
 							</ul>
 						</ul>
 					</div>

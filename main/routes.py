@@ -1,4 +1,4 @@
-from lib.page_data import get_all_pages, get_checkout_page_data, get_index_data, get_nav_categories, get_nav_shop_info, get_order_tracking_data, get_page_data, get_product_details, get_products_by_slug, get_search_results
+from lib.page_data import get_all_pages, get_checkout_page_data, get_index_data, get_nav_categories, get_nav_shop_info, get_order_tracking_data, get_page_data, get_product_details, get_products_by_slug, get_search_results, get_social_links
 from main import app
 from flask import request, render_template, jsonify, abort
 
@@ -12,7 +12,8 @@ def inject_categories():
         "pages": pages['navLink']
     }
 
-    footer_items ={
+    footer_items = {
+        "social_links": get_social_links(),
         "pages": {
             "support": pages['support'],
             "about": pages['about'],
