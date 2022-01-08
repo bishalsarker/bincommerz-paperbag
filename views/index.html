@@ -24,7 +24,7 @@
 <div id="banner" class="carousel slide" data-ride="carousel">
 	<ol class="carousel-indicators">
 	{% for slide in row.data.slides %}
-		{% if slide.default == True %}
+		{% if slide.default %}
 		<li data-target="#banner" data-slide-to="{{loop.index - 1}}" class="active"></li>
 		{% else %}
 		<li data-target="#banner" data-slide-to="{{loop.index - 1}}"></li>
@@ -33,7 +33,7 @@
 	</ol>
 	<div class="carousel-inner">
 	{% for slide in row.data.slides %}
-		{% if slide.default == True %}
+		{% if slide.default %}
 		<div class="carousel-item active">
 			<img
 				class="d-block w-100"

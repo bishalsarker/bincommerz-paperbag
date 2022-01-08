@@ -30,22 +30,18 @@ const _layoutService = new LayoutService(_categoryService, _pageService, _shopSe
 
 app.get('/', async (req, res) => {
     const layout = await _layoutService.resolveLayout();
+    const template = await _templateService.resolveTemplate();
+
+    console.log(template);
 
     env.addGlobal('layout', layout);
 
-    const index_data = {
-        title: null,
-        show_cart: true,
-        template_data: await _templateService.resolveTemplate()
-    };
-
-    const page_data = {
-        ...layout,
-        ...index_data     
-    }
-
-    res.render('index.html', { 
-        page_data: page_data
+    res.render('index.html', {
+        page_data: { 
+            title: null,
+            show_cart: true,
+            template_data: template
+        }
     });
 });
 
