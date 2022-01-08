@@ -1,0 +1,45 @@
+{% extends '__main.html' %} 
+
+{% block seo_meta %}
+<meta name="title" content="{{ page_data.title }}" />
+<meta name="robots" content="index, follow" />
+
+<meta property="og:title" content="{{ page_data.title }}" />
+<meta property="og:type" content="webite" />
+<meta property="og:image" content="{{ shop_info.logo }}" />
+{% endblock %}
+
+{% block content %}
+<div style="margin: 120px 0px 80px 0px" id="checkout_container">
+	<div class="container">
+        {% if page_data.page_data != None %}
+		<h3 class="section-header" id="checkout_header">{{ page_data.page_data.pageTitle }}</h3>     
+
+        <div class="container" style="margin-top: 6%;">
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <div class="w-100 page_body">
+                        {{ page_data.page_data.content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if page_data.page_data == None %}
+		<h3 class="section-header" id="checkout_header">404</h3>     
+
+        <div class="container" style="margin-top: 6%;">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6 col-md-12">
+                    <div class="w-100">
+                        <p>The page you are looking for couldn't be found</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+	</div>
+</div>
+
+{% endblock %}

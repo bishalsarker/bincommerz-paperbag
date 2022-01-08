@@ -122,7 +122,6 @@ def get_page_data(category, slug):
 
     return page_model
 
-
 def filter_categories(all_cats):
     filtered = []
     for cat in all_cats:
