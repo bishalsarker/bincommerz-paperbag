@@ -6,13 +6,12 @@
 		<base href="/" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>
-			{{ shop_name }}
-			{% if page_data.title == None %}
-				{{ shop_info.name }} - {{ shop_info.description }}
+			{% if layout.page_data.title == None %}
+				{{ layout.shop_info.name }} - {{ layout.shop_info.description }}
 			{% endif %}
 		
 			{% if page_data.title != None %}
-				{{ page_data.title }} | {{ shop_info.name }} - {{ shop_info.description }}
+				{{ layout.page_data.title }} | {{ layout.shop_info.name }} - {{ layout.shop_info.description }}
 			{% endif %}
 		</title>
 		{% block seo_meta %}{% endblock %}

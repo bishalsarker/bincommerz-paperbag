@@ -32,11 +32,11 @@ app.get('/', async (req, res) => {
     const layout = await _layoutService.resolveLayout();
     const template = await _templateService.resolveTemplate();
 
-    console.log(template);
+    console.log(template[0].data.slides);
 
     env.addGlobal('layout', layout);
 
-    res.render('index.html', {
+    res.render('home.html', {
         page_data: { 
             title: null,
             show_cart: true,

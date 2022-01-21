@@ -2,6 +2,7 @@ import { api_endpoints } from "../constants/api-endpoints";
 import { Category } from "../interfaces/category";
 import { HttpClient } from "../utils/http.util";
 import { Resolvers } from "../utils/resolvers.util";
+import * as _ from 'lodash';
 
 export class CategoryService {
     private _httpClient = new HttpClient();
@@ -12,12 +13,15 @@ export class CategoryService {
         let resolved_categories: Category[] = [];
 
         if (categories) {
-            resolved_categories = categories.map((cat) => {
-                return this._resolvers.resolveImageUrl(cat, ["imageUrl"]);
+             categories.forEach((cat) => {
+                const resolved_cat = this._resolvers.resolveImageUrl(cat, ["imageUrl"]);
+                if (resolved_cat) {
+                    resolved_categories.push(resolved_cat);
+                }
             });
         }
 
-        return Promise.resolve(resolved_categories);
+        return Promise.resolve(_.orderBy(resolved_categories, ['order'], ['asc']));
     }
 
     public async getCategory(slug: String): Promise<Category | null> {
