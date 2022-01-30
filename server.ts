@@ -60,6 +60,25 @@ app.get('/product/:id', async (req, res) => {
   });
 });
 
+app.get('/products/:slug', async (req, res) => {
+  const layout = await _layoutService.resolveLayout();
+  const categoryData = await _categoryService.getCategory(req.params.slug);
+  const productlist = await _productService.getProducts(req.params.slug, 'newest');
+
+  env.addGlobal('layout', layout);
+
+  res.render('products.html', {
+      page_data: {
+        title: categoryData?.name,
+        cat_slug: categoryData?.slug,
+        cat_name: categoryData?.name,
+        subcategories: categoryData?.subcategories,
+        product_list: productlist,
+        show_cart: true
+      }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`)
 });
