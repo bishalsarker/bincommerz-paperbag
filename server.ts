@@ -32,17 +32,32 @@ app.get('/', async (req, res) => {
     const layout = await _layoutService.resolveLayout();
     const template = await _templateService.resolveTemplate();
 
-    console.log(template[0].data.slides);
-
     env.addGlobal('layout', layout);
 
-    res.render('home.html', {
+    res.render('index.html', {
         page_data: { 
             title: null,
             show_cart: true,
             template_data: template
         }
     });
+});
+
+app.get('/product/:id', async (req, res) => {
+  const layout = await _layoutService.resolveLayout();
+  const productData = await _productService.getProduct(req.params.id);
+
+  env.addGlobal('layout', layout);
+
+  res.render('product-details.html', {
+      page_data: {
+        title: productData?.name,
+        product_data: productData,
+        product_id: productData?.id,
+        default_gallery_image: productData?.images[0],
+        show_cart: true
+      }
+  });
 });
 
 app.listen(PORT, () => {
