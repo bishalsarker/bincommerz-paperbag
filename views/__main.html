@@ -234,7 +234,7 @@
 	            				<ul class="widget-list">
                                     {% for aboutpage in layout.footer_items.pages.about %}
                                     <li>
-                                        <a href="/about/{{aboutpage.slug}}">{{ aboutpage.pageTitle }}</a>
+                                        <a href="/pages/about/{{aboutpage.slug}}">{{ aboutpage.pageTitle }}</a>
                                     </li>
                                     {% endfor %}
 	            				</ul>
@@ -251,6 +251,11 @@
                                     <li>
                                         <a href="/search">Search Products</a>
                                     </li>
+                                    {% if layout.footer_items.pages.faq | length > 0 %}
+                                    <li>
+                                        <a href="/faq">FAQ</a>
+                                    </li>
+                                    {% endif %}
 	            				</ul>
 	            			</div>
 	            		</div>
@@ -264,7 +269,7 @@
 	            				<ul class="widget-list">
 	            					{% for supportpage in layout.footer_items.pages.support %}
                                     <li>
-                                        <a href="/support/{{supportpage.slug}}">{{ supportpage.pageTitle }}</a>
+                                        <a href="/pages/support/{{supportpage.slug}}">{{ supportpage.pageTitle }}</a>
                                     </li>
                                     {% endfor %}
 	            				</ul>

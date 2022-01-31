@@ -79,6 +79,36 @@ app.get('/products/:slug', async (req, res) => {
   });
 });
 
+app.get('/pages/:type/:slug', async (req, res) => {
+  const layout = await _layoutService.resolveLayout();
+  const pageData = await _pageService.getPage(req.params.type, req.params.slug);
+
+  env.addGlobal('layout', layout);
+
+  res.render('page_viewer.html', {
+      page_data: {
+        title: pageData?.pageTitle,
+        page_data: pageData,
+        show_cart: true
+    }
+  });
+});
+
+app.get('/faq', async (req, res) => {
+  const layout = await _layoutService.resolveLayout();
+  const pages = await _pageService.getPages();
+
+  env.addGlobal('layout', layout);
+
+  res.render('faq.html', {
+      page_data: {
+        title: 'Frequently Asked Questions',
+        faq_list: pages?.faq,
+        show_cart: true
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`)
 });

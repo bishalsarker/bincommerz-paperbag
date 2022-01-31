@@ -8,7 +8,7 @@ export const api_endpoints: any = {
     search_products: api_host + "products/search?q=",
     track_order: api_host + "order/track/",
     get_pages: api_host + "pages/getall",
-    get_page: api_host + "pages/get?",
+    get_page: api_host + "pages/get",
     shop_info: api_host + "info",
     get_slider: api_host + "widgets/slider/get/",
     get_template: api_host + "templates/get",

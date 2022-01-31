@@ -26,25 +26,17 @@
         </div><!-- End .container -->
     </nav><!-- End .breadcrumb-nav -->
 
-    <div class="page-content pb-3">
+    <div class="page-content">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-10 offset-lg-1">
-                    <div id="page_body" class="about-text mt-3">
-                        {{page_data.page_data.content}}
-                    </div><!-- End .about-text -->
-                    <script>
-                        var page_body = document.getElementById("page_body");
-
-                        if (page_body) {
-                            page_body.innerHTML = page_body.innerText;
-                        }
-                    </script>
-                </div><!-- End .col-lg-10 offset-1 -->
-            </div><!-- End .row -->
+            {% for faq in page_data.faq_list %}
+            <p style="font-weight: 600; font-size: 20px;">
+                {{loop.index}}.
+                <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                   {{ faq.pageTitle }}
+                </a>
+            </p>
+            {% endfor %}
         </div><!-- End .container -->
-
-        <div class="mb-2"></div><!-- End .mb-2 -->
     </div><!-- End .page-content -->
 </main><!-- End .main -->
 {% endblock %}
