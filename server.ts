@@ -64,11 +64,11 @@ app.get('/products', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
   const slug = req.query.slug as String;
   const keyword = req.query.keyword as String;
-  const page_number = req.query.page_number as String;
+  const page_number = req.query.page_number as String ? req.query.page_number as String : "1";
   console.log(slug, keyword, page_number);
   const categoryData = await _categoryService.getCategory(slug);
   const productlist = await _productService.getProducts(
-    slug, 'newest', keyword ? keyword : undefined, "20", page_number ? page_number : "1");
+    slug, 'newest', keyword ? keyword : undefined, "20", page_number);
 
   env.addGlobal('layout', layout);
 
@@ -80,6 +80,7 @@ app.get('/products', async (req, res) => {
         subcategories: categoryData?.subcategories,
         product_list: productlist?.products,
         query_string: "slug=" + slug,
+        selected_page_number: page_number,
         total_pages: () => {
           const page_number_list = [];
           let i = 0;
