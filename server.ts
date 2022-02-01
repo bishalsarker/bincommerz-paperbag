@@ -79,6 +79,20 @@ app.get('/products', async (req, res) => {
         cat_name: categoryData?.name,
         subcategories: categoryData?.subcategories,
         product_list: productlist?.products,
+        query_string: "slug=" + slug,
+        total_pages: () => {
+          const page_number_list = [];
+          let i = 0;
+          const total_pages = productlist?.totalPages ? productlist?.totalPages : 0;
+
+          while (i < total_pages) {
+            page_number_list.push(i + 1);
+            i++;
+          }
+
+          return page_number_list;
+        },
+
         show_cart: true
       }
   });
