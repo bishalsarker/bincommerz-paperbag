@@ -168,7 +168,7 @@
                             {% for cat in layout.nav_items.shown %}
                                 {% if cat.subcategories | length == 0 %}
                                 <li>
-                                    <a href="/products/{{cat.slug}}">{{ cat.name }}</a>
+                                    <a href="/products?slug={{cat.slug}}">{{ cat.name }}</a>
                                 </li>
                                 {% endif %}
                                 {% if cat.subcategories | length > 0 %}
@@ -316,7 +316,7 @@
                             {% for cat in layout.nav_items.shown %}
                                 {% if cat.subcategories | length == 0 %}
                                 <li>
-                                    <a href="/products/{{cat.slug}}">{{ cat.name }}</a>
+                                    <a href="/products?slug={{cat.slug}}">{{ cat.name }}</a>
                                 </li>
                                 {% endif %}
                                 {% if cat.subcategories | length > 0 %}

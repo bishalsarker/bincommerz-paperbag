@@ -60,10 +60,15 @@ app.get('/product/:id', async (req, res) => {
   });
 });
 
-app.get('/products/:slug', async (req, res) => {
+app.get('/products', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
-  const categoryData = await _categoryService.getCategory(req.params.slug);
-  const productlist = await _productService.getProducts(req.params.slug, 'newest');
+  const slug = req.query.slug as String;
+  const keyword = req.query.keyword as String;
+  const page_number = req.query.page_number as String;
+  console.log(slug, keyword, page_number);
+  const categoryData = await _categoryService.getCategory(slug);
+  const productlist = await _productService.getProducts(
+    slug, 'newest', keyword ? keyword : undefined, "20", page_number ? page_number : "1");
 
   env.addGlobal('layout', layout);
 
@@ -73,7 +78,7 @@ app.get('/products/:slug', async (req, res) => {
         cat_slug: categoryData?.slug,
         cat_name: categoryData?.name,
         subcategories: categoryData?.subcategories,
-        product_list: productlist,
+        product_list: productlist?.products,
         show_cart: true
       }
   });

@@ -46,7 +46,7 @@ export class TemplateService {
                     section_type = 'product_section'
                     data = {
                         'slug': row['resolve']['value'],
-                        "products": (await this._productService.getProducts(row['resolve']['value'], 'newest'))?.slice(0, 4)
+                        "products": (await this._productService.getProducts(row['resolve']['value'], 'newest', undefined, "4", "1"))?.products
                     }
                 }
             }

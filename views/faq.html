@@ -31,7 +31,7 @@
             {% for faq in page_data.faq_list %}
             <p style="font-weight: 600; font-size: 20px;">
                 {{loop.index}}.
-                <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                <a href="/pages/faq/{{faq.slug}}">
                    {{ faq.pageTitle }}
                 </a>
             </p>
