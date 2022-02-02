@@ -1,5 +1,6 @@
 import express from 'express';
 import nunjucks from 'nunjucks';
+import { Category } from './interfaces/category';
 import { CategoryService } from './services/category.service';
 import { LayoutService } from './services/layout.service';
 import { PageService } from './services/page.service';
@@ -60,12 +61,11 @@ app.get('/product/:id', async (req, res) => {
   });
 });
 
-app.get('/products', async (req, res) => {
+app.get('/products/catalog/:slug', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
-  const slug = req.query.slug as String;
+  const slug = req.params.slug as String;
   const keyword = req.query.keyword as String;
   const page_number = req.query.page_number as String ? req.query.page_number as String : "1";
-  console.log(slug, keyword, page_number);
   const categoryData = await _categoryService.getCategory(slug);
   const productlist = await _productService.getProducts(
     slug, 'newest', keyword ? keyword : undefined, "20", page_number);
@@ -97,6 +97,72 @@ app.get('/products', async (req, res) => {
         show_cart: true
       }
   });
+});
+
+app.get('/products/search', async (req, res) => {
+  const layout = await _layoutService.resolveLayout();
+  const cat = req.query.cat as String;
+  const keyword = req.query.keyword as String;
+  const page_number = req.query.page_number as String ? req.query.page_number as String : "1";
+  const categories = await _categoryService.getCategories();
+  let subcategories: Category[] = [];
+
+  if (cat) {
+    const subcat = (await _categoryService.getCategory(cat))?.subcategories;
+    if (subcat) {
+      subcategories = subcat;
+    }
+  }
+
+  const productlist = await _productService.getProducts(
+    cat, 'newest', keyword ? keyword : undefined, "20", page_number);
+
+  layout['query_string'] = keyword;
+
+  env.addGlobal('layout', layout);
+
+  if (keyword && keyword !== '') {
+    res.render('search_results.html', {
+        page_data: {
+          title: 'Catalog Search',
+          categories: categories,
+          subcategories: subcategories,
+          product_list: productlist?.products,
+          query_string: keyword,
+          selected_page_number: page_number,
+          total_pages: () => {
+            const page_number_list = [];
+            let i = 0;
+            const total_pages = productlist?.totalPages ? productlist?.totalPages : 0;
+
+            while (i < total_pages) {
+              page_number_list.push(i + 1);
+              i++;
+            }
+
+            return page_number_list;
+          },
+
+          show_cart: true
+        }
+    });
+  } else {
+    res.render('search_results.html', {
+      page_data: {
+        title: 'Catalog Search',
+        categories: [],
+        subcategories: [],
+        product_list: [],
+        query_string: '',
+        selected_page_number: 1,
+        total_pages: () => {
+          return 1;
+        },
+
+        show_cart: true
+      }
+  });
+  }
 });
 
 app.get('/pages/:type/:slug', async (req, res) => {

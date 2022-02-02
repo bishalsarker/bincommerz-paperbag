@@ -22,8 +22,8 @@
         </div><!-- End .container -->
     </nav><!-- End .breadcrumb-nav -->
 
-    <div>
-      <h5>Search results for: '{{page_data.search_query}}'</h5>
+    <div class="container mb-2">
+      <h5>Search results for: '{{page_data.query_string}}'</h5>
     </div>
 
     <div class="page-content">
@@ -89,20 +89,18 @@
 
               <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                  <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                      <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                  </a>
-              </li>
-              <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item-total">of 6</li>
-              <li class="page-item">
-                  <a class="page-link page-link-next" href="#" aria-label="Next">
-                      Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                  </a>
-              </li>
+              <!-- <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li> -->
+              {% for page_number in page_data.total_pages() %}
+              {% if page_number == page_data.selected_page_number %}
+                <li class="page-item active">
+                  <a class="page-link" style="cursor: pointer;" onclick="gotoPage('{{ page_number }}')">{{ page_number }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                  <a class="page-link" style="cursor: pointer;" onclick="gotoPage('{{ page_number }}')">{{ page_number }}</a>
+                </li>
+                {% endif %}
+              {% endfor %}
           </ul>
       </nav>
             </div><!-- End .col-lg-9 -->
@@ -114,32 +112,110 @@
                 </div><!-- End .widget widget-clean -->
 
                 <div class="widget widget-collapsible">
-            <h3 class="widget-title">
-              <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
-                  Sub Categories
-              </a>
-          </h3><!-- End .widget-title -->
+                  <h3 class="widget-title">
+                    <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
+                        Categories
+                    </a>
+                  </h3><!-- End .widget-title -->
 
-          <div class="collapse show" id="widget-1">
-            <div class="widget-body">
-              <div class="filter-items filter-items-count">
-                {% for category in page_data.subcategories %}
-                <div class="filter-item">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="{{category.slug}}">
-                    <label class="custom-control-label" for="{{category.slug}}">{{category.name}}</label>
-                  </div><!-- End .custom-checkbox -->
-                  <span class="item-count">3</span>
-                </div><!-- End .filter-item -->
-                {% endfor %}
-              </div><!-- End .filter-items -->
-            </div><!-- End .widget-body -->
-          </div><!-- End .collapse -->
-            </div><!-- End .widget -->
+                <div class="collapse show" id="widget-1">
+                  <div class="widget-body">
+                    <div class="filter-items filter-items-count">
+                      {% for category in page_data.categories %}
+                      <div class="filter-item">
+                        <div class="custom-control custom-checkbox">
+                          <input onclick="addCategoryFilter('{{category.slug}}')" type="checkbox" class="custom-control-input" id="{{category.slug}}">
+                          <label class="custom-control-label" for="{{category.slug}}">{{category.name}}</label>
+                        </div><!-- End .custom-checkbox -->
+                      </div><!-- End .filter-item -->
+                      {% endfor %}
+                    </div><!-- End .filter-items -->
+                  </div><!-- End .widget-body -->
+                </div><!-- End .collapse -->
+              </div><!-- End .widget -->
+
+                <div class="widget widget-collapsible">
+                    <h3 class="widget-title">
+                      <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
+                          Sub Categories
+                      </a>
+                    </h3><!-- End .widget-title -->
+
+                  <div class="collapse show" id="widget-1">
+                    <div class="widget-body">
+                      <div class="filter-items filter-items-count">
+                        {% for category in page_data.subcategories %}
+                        <div class="filter-item">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="{{category.slug}}">
+                            <label class="custom-control-label" for="{{category.slug}}">{{category.name}}</label>
+                          </div><!-- End .custom-checkbox -->
+                        </div><!-- End .filter-item -->
+                        {% endfor %}
+                      </div><!-- End .filter-items -->
+                    </div><!-- End .widget-body -->
+                  </div><!-- End .collapse -->
+                </div><!-- End .widget -->
               </div><!-- End .sidebar sidebar-shop -->
             </aside><!-- End .col-lg-3 -->
           </div><!-- End .row -->
         </div><!-- End .container -->
     </div><!-- End .page-content -->
 </main><!-- End .main -->
+
+<script>
+  var selected_cat = [];
+  var selected_subcat = [];
+
+  if (getParameterByName('cat')) {
+    var cats = getParameterByName('cat').split(',');
+    cats.forEach((cat) => {
+      var checkbox = document.getElementById(cat).checked = true;
+    })
+  }
+
+  function gotoPage(page_number) {
+    var query_params = [];
+
+    if (getParameterByName('keyword')) {
+      query_params.push('keyword=' + getParameterByName('keyword'));
+    }
+
+    if (getParameterByName('cat')) {
+      query_params.push('cat=' + getParameterByName('cat'));
+    }
+
+    query_params.push('page_number=' + page_number);
+
+    window.location.href = '/products/search?' + query_params.join('&');
+  }
+
+  function addCategoryFilter(cat_slug) {
+    selected_cat.push(cat_slug);
+
+    var query_params = [];
+    // if (getParameterByName('cat')) {
+    //   selected_cat.push('cat' + getParameterByName('cat'));
+    // }
+
+    if (getParameterByName('keyword')) {
+      query_params.push('keyword=' + getParameterByName('keyword'));
+    }
+
+    query_params.push('cat=' + selected_cat.join(','));
+
+    window.location.href = '/products/search?' + query_params.join('&');
+  }
+
+  function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+</script>
+
 {% endblock %}

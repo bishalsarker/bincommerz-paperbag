@@ -72,11 +72,11 @@
                     <div class="header-center">
                         <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
                             <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                            <form action="#" method="get">
+                            <form action="/products/search" method="get">
                                 <div class="header-search-wrapper search-wrapper-wide">
                                     <label for="q" class="sr-only">Search</label>
                                     <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required>
+                                    <input type="search" class="form-control" name="keyword" id="q" value="{{layout.query_string}}" placeholder="Search product ..." required>
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
@@ -168,7 +168,7 @@
                             {% for cat in layout.nav_items.shown %}
                                 {% if cat.subcategories | length == 0 %}
                                 <li>
-                                    <a href="/products?slug={{cat.slug}}">{{ cat.name }}</a>
+                                    <a href="/products/{{cat.slug}}">{{ cat.name }}</a>
                                 </li>
                                 {% endif %}
                                 {% if cat.subcategories | length > 0 %}
@@ -248,9 +248,6 @@
 	            					<li>
                                         <a href="/order_tracker">Order Tracking</a>
                                     </li>
-                                    <li>
-                                        <a href="/search">Search Products</a>
-                                    </li>
                                     {% if layout.footer_items.pages.faq | length > 0 %}
                                     <li>
                                         <a href="/faq">FAQ</a>
@@ -316,7 +313,7 @@
                             {% for cat in layout.nav_items.shown %}
                                 {% if cat.subcategories | length == 0 %}
                                 <li>
-                                    <a href="/products?slug={{cat.slug}}">{{ cat.name }}</a>
+                                    <a href="/products/{{cat.slug}}">{{ cat.name }}</a>
                                 </li>
                                 {% endif %}
                                 {% if cat.subcategories | length > 0 %}

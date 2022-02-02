@@ -89,7 +89,7 @@
                     {% for cat in row.data%}
                     {% if cat.slug != 'featured'%}
                     <div style="width: 300px;">
-                        <a href="/products?slug={{cat.slug}}" class="cat-block">
+                        <a href="/products/{{cat.slug}}" class="cat-block">
                             <figure>
                                 <span>
                                     <img src="{{cat.imageUrl}}" alt="Category image">
