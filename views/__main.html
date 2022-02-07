@@ -50,6 +50,9 @@
         .details-filter-row {
             margin-bottom: 3rem;
         }
+        .fa-envelope:before {
+            font-size: 23px;
+        }
     </style>
 </head>
 
@@ -94,61 +97,22 @@
                         </div>
 
                         <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <a onmouseover="openCart()" href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <div class="icon">
                                     <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">2</span>
+                                    <span id="lblCartCount" class="cart-count">2</span>
                                 </div>
                                 <p>Cart</p>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-cart-products">
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Beige knitted elastic runner shoes</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $84.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="/assets/images/products/cart/product-1.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
-
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Blue utility pinafore denim dress</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $76.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="/assets/images/products/cart/product-2.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
+                                <div id="cart_items_container" class="dropdown-cart-products">
                                 </div><!-- End .cart-product -->
 
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    <span id="total_price_cart_items" class="cart-total-price"></span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -168,7 +132,7 @@
                             {% for cat in layout.nav_items.shown %}
                                 {% if cat.subcategories | length == 0 %}
                                 <li>
-                                    <a href="/products/{{cat.slug}}">{{ cat.name }}</a>
+                                    <a href="/products/catalog/{{cat.slug}}">{{ cat.name }}</a>
                                 </li>
                                 {% endif %}
                                 {% if cat.subcategories | length > 0 %}
@@ -176,7 +140,7 @@
                                     <a href="#" class="sf-with-ul">{{ cat.name }}</a>
                                     <ul>
                                         {% for subcat in cat.subcategories %}
-                                        <li><a href="/products/{{subcat.slug}}">{{ subcat.name }}</a></li>
+                                        <li><a href="/products/catalog/{{subcat.slug}}">{{ subcat.name }}</a></li>
                                         {% endfor %}
                                     </ul>
                                 </li>
@@ -313,7 +277,7 @@
                             {% for cat in layout.nav_items.shown %}
                                 {% if cat.subcategories | length == 0 %}
                                 <li>
-                                    <a href="/products/{{cat.slug}}">{{ cat.name }}</a>
+                                    <a href="/products/catalog/{{cat.slug}}">{{ cat.name }}</a>
                                 </li>
                                 {% endif %}
                                 {% if cat.subcategories | length > 0 %}
@@ -321,7 +285,7 @@
                                     <a href="#" class="sf-with-ul">{{ cat.name }}</a>
                                     <ul>
                                         {% for subcat in cat.subcategories %}
-                                        <li><a href="/products/{{subcat.slug}}">{{ subcat.name }}</a></li>
+                                        <li><a href="/products/catalog/{{subcat.slug}}">{{ subcat.name }}</a></li>
                                         {% endfor %}
                                     </ul>
                                 </li>
@@ -353,8 +317,15 @@
     <script src="/assets/js/jquery.magnific-popup.min.js"></script>
     <script src="/assets/js/jquery.countdown.min.js"></script>
     <script src="/assets/js/jquery.elevateZoom.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+        integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    ></script>
     <!-- Main JS File -->
     <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/cart_service.js"></script>
     <!-- <script src="/assets/js/demos/demo-4.js"></script> -->
     {% block additional_scripts %}{% endblock %}
 </body>

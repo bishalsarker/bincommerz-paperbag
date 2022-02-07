@@ -780,3 +780,23 @@ $(document).ready(function () {
     //     }, 10000)
     // }
 });
+
+function createElement(options) {
+    var el = document.createElement(options.tag_name);
+    
+    if (options.attributes) {
+      Object.keys(options.attributes).forEach(function (key) {
+        el.setAttribute(key, options.attributes[key]);
+      });
+    }
+  
+    if (options.inner_text) {
+      el.innerText = options.inner_text;
+    }
+  
+    if (options.inner_html) {
+      el.innerHTML = options.inner_html;
+    }
+  
+    return el;
+  }
