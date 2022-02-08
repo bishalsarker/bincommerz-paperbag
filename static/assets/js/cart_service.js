@@ -14,6 +14,7 @@ renderCartTable();
 function openCart() {
 	var cart_items = JSON.parse(localStorage.getItem('cart_items'));
 	renderCartItems(cart_items);
+	updateCartTotalPrice();
 }
 
 function renderCartTable() {
@@ -24,7 +25,7 @@ function renderCartTable() {
 	var shipping_charge_lbl = document.getElementById('shipping-charge-lbl');
 
 	if (shipping_charge_lbl) {
-		shipping_charge_lbl.innerText = shipping_charge;
+		shipping_charge_lbl.innerText = 'Tk ' + shipping_charge;
 	}
 }
 
