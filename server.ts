@@ -3,6 +3,7 @@ import nunjucks from 'nunjucks';
 import { Category } from './interfaces/category';
 import { CategoryService } from './services/category.service';
 import { LayoutService } from './services/layout.service';
+import { OrderService } from './services/order.service';
 import { PageService } from './services/page.service';
 
 import { ProductService } from './services/product.service';
@@ -11,6 +12,14 @@ import { TemplateService } from './services/template.service';
 
 var app = express();
 const PORT = '8000';
+
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+)
+
+app.use(express.json())
 
 var env = nunjucks.configure('views', {
   autoescape: true,
@@ -28,6 +37,7 @@ const _pageService = new PageService();
 const _shopService = new ShopService();
 const _templateService = new TemplateService(_productService, _categoryService);
 const _layoutService = new LayoutService(_categoryService, _pageService, _shopService);
+const _orderService = new OrderService();
 
 app.get('/', async (req, res) => {
     const layout = await _layoutService.resolveLayout();
@@ -224,6 +234,12 @@ app.get('/faq', async (req, res) => {
     }
   });
 });
+
+app.post('/place-order', (req, res) => {
+  _orderService.placeOrder(req.body).then((response) => {
+    res.send(response);
+  });
+})
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`)

@@ -10,7 +10,7 @@
 <main class="main">
 	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
 		<div class="container">
-			<h1 class="page-title">Checkout</h1>
+			<h1 class="page-title" id="checkout_header">Checkout</h1>
 		</div><!-- End .container -->
 	</div><!-- End .page-header -->
 	<nav aria-label="breadcrumb" class="breadcrumb-nav">
@@ -23,7 +23,7 @@
 		</div><!-- End .container -->
 	</nav><!-- End .breadcrumb-nav -->
 
-	<div class="page-content">
+	<div class="page-content" id="checkout_form">
 		<div class="checkout">
 			<div class="container">
 				<form action="#">
@@ -61,8 +61,7 @@
 											class="form-control" 
 											cols="30" 
 											rows="4"
-											name="address" 
-											required></textarea>
+											name="address"></textarea>
 										<small style="color: red;" id="address_errmsg"></small>
 									</div><!-- End .col-sm-6 -->
 								</div><!-- End .row -->
@@ -101,7 +100,7 @@
 									</div>
 								</div>
 
-								<button type="submit" onclick="placeOrder()" class="btn btn-outline-primary-2 btn-order btn-block">
+								<button id="place_order_btn" type="submit" onclick="placeOrder()" class="btn btn-outline-primary-2 btn-order btn-block">
 									<span class="btn-text">Place Order</span>
 									<span class="btn-hover-text">Proceed to Checkout</span>
 								</button>

@@ -12,5 +12,6 @@ export const api_endpoints: any = {
     shop_info: api_host + "info",
     get_slider: api_host + "widgets/slider/get/",
     get_template: api_host + "templates/get",
+    place_order: api_host + "order/addnew",
     static_files_endpoint: "https://bincommerzstaticstorage.blob.core.windows.net"
 }

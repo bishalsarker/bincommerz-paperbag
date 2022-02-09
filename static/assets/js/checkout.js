@@ -60,8 +60,6 @@ function placeOrder() {
     var address = document.getElementsByName("address")[0];
     var trx_id = document.getElementsByName("transaction_id")[0];
 
-    console.log(address)
-
     document.getElementById("full_name_errmsg").innerText = "";
     document.getElementById("phone_number_errmsg").innerText = "";
     // document.getElementById("email_errmsg").innerText = "";
@@ -142,23 +140,18 @@ function placeOrder() {
             }),
         };
     
-        var place_order_btn_text = document.getElementById("place_order_btn_text");
         var place_order_btn = document.getElementById("place_order_btn");
-        place_order_btn_text.innerText ="PLACING ORDER...";
+        place_order_btn.innerHTML ="<span>PLACING ORDER...</span>";
         place_order_btn.disabled = true;
-        
-        // $.ajax('http://127.0.0.1:5000/cronping?ping_id=MNjaj89Uy6tarQzz', {
-        $.ajax('https://bincommerz.azurewebsites.net/shop/order/addnew', {
+
+        $.ajax('/place-order', {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderPayload),
-            headers: {
-                shop_id: "potterybd",
-            },
             success: function (response, status, xhr) {
                 var orders = JSON.parse(localStorage.getItem('orders'));
                 orders.push({
-                    id: response.data.id,
+                    id: response.id,
                     fullName: document.getElementsByName("full_name")[0].value,
                     phone: document.getElementsByName("phone_number")[0].value,
                     email: document.getElementsByName("email")[0].value,
@@ -169,7 +162,7 @@ function placeOrder() {
                 });
 
                 localStorage.setItem('orders', JSON.stringify(orders));
-                updateOrderCount();
+                // updateOrderCount();
 
                 var shipping_details = localStorage.getItem("shipping_details");
 
@@ -190,6 +183,8 @@ function placeOrder() {
                 var checkout_form = document.getElementById("checkout_form");
                 checkout_form.innerHTML = "";
 
+                updateCartCount();
+
                 var order_id_section = createElement({
                     tag_name: 'div',
                     attributes: {
@@ -208,7 +203,7 @@ function placeOrder() {
                     attributes: {
                         style: 'color: #e25050;'
                     },
-                    inner_text: response.data.id
+                    inner_text: response.id
                 });
 
                 var instruction = createElement({
