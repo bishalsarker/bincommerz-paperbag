@@ -71,9 +71,9 @@ function renderCartItems(cart_items) {
 
 function renderCartTableItems(cart_items) {
 	var cart_items_container = document.getElementById('cart_table_items_container');
-	cart_items_container.innerHTML = '';
 
 	if (cart_items_container) {
+		cart_items_container.innerHTML = '';
 		if (cart_items.length === 0) {
 			setEmptyCartMessage(cart_items_container);
 		} else {
@@ -228,6 +228,12 @@ function removeCartItem(productId) {
 
 	if (new_cart_list.length === 0) {
 		setEmptyCartMessage(cart_items_container);
+	}
+
+	var cart_item_table_body = document.getElementById("cart_item_table_body");
+
+	if (cart_item_table_body) {
+		window.location.reload();
 	}
 
 	updateCartCount();

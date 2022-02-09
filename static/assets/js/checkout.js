@@ -22,64 +22,35 @@ function renderCartItemsTable() {
     var cart_item_table_body = document.getElementById("cart_item_table_body");
     var cart_items = JSON.parse(localStorage.getItem('cart_items'));
     var total_items_price = 0;
+    var order_details_table_content = "";
 
     cart_items.forEach((item) => {
-        var row = createElement({tag_name: 'tr'});
-        var sub_total = item.price * item.quantity;
-
-        var td_title = createElement({
-            tag_name: 'td',
-            inner_text: item.title + " X " + item.quantity,
-        });
-
-        var td_price = createElement({
-            tag_name: 'td',
-            inner_text: "Tk. " + sub_total,
-        });
-
-        row.appendChild(td_title);
-        row.appendChild(td_price);
-
-        cart_item_table_body.appendChild(row);
+        var sub_total = item.quantity * item.price;
+        order_details_table_content = order_details_table_content + `
+        <tr>
+            <td><a href="/product/${item.id}">${item.title}</a></td>
+            <td>Tk ${sub_total}</td>
+        </tr>
+        `;
 
         total_items_price +=sub_total;
     });
 
-    var shipping_charge_row = createElement({tag_name: 'tr'});
-    var td_shipping_title = createElement({
-        tag_name: 'td',
-        attributes: {
-            style: 'font-weight: 600'
-        },
-        inner_text: 'Shipping (Countrywide)',
-    });
+    order_details_table_content = order_details_table_content + `
+    <tr class="summary-subtotal">
+        <td>Subtotal:</td>
+        <td>Tk ${total_items_price}</td>
+    </tr>
+    <tr>
+        <td>Shipping:</td>
+        <td>Tk ${shipping_charge}</td>
+    </tr>
+    <tr class="summary-total">
+        <td>Total:</td>
+        <td>Tk ${total_items_price + shipping_charge}</td>
+    </tr>`;
 
-    var td_shipping_charge = createElement({
-        tag_name: 'td',
-        inner_text: "Tk. " + shipping_charge,
-    });
-
-    shipping_charge_row.appendChild(td_shipping_title);
-    shipping_charge_row.appendChild(td_shipping_charge);
-    cart_item_table_body.appendChild(shipping_charge_row);
-
-    var total_row = createElement({tag_name: 'tr'});
-    var td_total_title = createElement({
-        tag_name: 'td',
-        attributes: {
-            style: 'font-weight: 600'
-        },
-        inner_text: 'Total',
-    });
-
-    var td_total_amount = createElement({
-        tag_name: 'td',
-        inner_text: "Tk. " + (total_items_price + shipping_charge),
-    });
-
-    total_row.appendChild(td_total_title);
-    total_row.appendChild(td_total_amount);
-    cart_item_table_body.appendChild(total_row);
+    cart_item_table_body.innerHTML = order_details_table_content;
 }
 
 function placeOrder() {
@@ -89,9 +60,11 @@ function placeOrder() {
     var address = document.getElementsByName("address")[0];
     var trx_id = document.getElementsByName("transaction_id")[0];
 
+    console.log(address)
+
     document.getElementById("full_name_errmsg").innerText = "";
     document.getElementById("phone_number_errmsg").innerText = "";
-    document.getElementById("email_errmsg").innerText = "";
+    // document.getElementById("email_errmsg").innerText = "";
     document.getElementById("address_errmsg").innerText = "";
     document.getElementById("trxid_errmsg").innerText = "";
 
@@ -127,17 +100,17 @@ function placeOrder() {
         }
     }
 
-    if (email.value === "") {
-        document.getElementById("email_errmsg").innerText = "This field is required";
-        email.style.borderColor = "red";
-        hasValidationErrors = true;
-    } else {
-        if (!email.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-            document.getElementById("email_errmsg").innerText = "Please provide a valid email address";
-            email.style.borderColor = "red";
-            hasValidationErrors = true;
-        }
-    }
+    // if (email.value === "") {
+    //     document.getElementById("email_errmsg").innerText = "This field is required";
+    //     email.style.borderColor = "red";
+    //     hasValidationErrors = true;
+    // } else {
+    //     if (!email.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+    //         document.getElementById("email_errmsg").innerText = "Please provide a valid email address";
+    //         email.style.borderColor = "red";
+    //         hasValidationErrors = true;
+    //     }
+    // }
 
     if (address.value === "") {
         document.getElementById("address_errmsg").innerText = "This field is required";

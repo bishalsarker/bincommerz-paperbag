@@ -6,7 +6,115 @@
 {% endblock %}
 
 {% block content %}
-<div style="margin: 120px 0px 80px 0px" id="checkout_container">
+
+<main class="main">
+	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+		<div class="container">
+			<h1 class="page-title">Checkout</h1>
+		</div><!-- End .container -->
+	</div><!-- End .page-header -->
+	<nav aria-label="breadcrumb" class="breadcrumb-nav">
+		<div class="container">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+				<li class="breadcrumb-item"><a href="#">Shop</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Checkout</li>
+			</ol>
+		</div><!-- End .container -->
+	</nav><!-- End .breadcrumb-nav -->
+
+	<div class="page-content">
+		<div class="checkout">
+			<div class="container">
+				<form action="#">
+					<div class="row">
+						<div class="col-lg-7">
+							<h2 class="checkout-title">Shipping Details</h2><!-- End .checkout-title -->
+								<div class="row">
+									<div class="col-12">
+										<label>Full Name *</label>
+										<input type="text" class="form-control" name="full_name" required>
+										<small style="color: red;" id="full_name_errmsg"></small>
+									</div><!-- End .col-sm-6 -->
+								</div><!-- End .row -->
+
+								<div class="row">
+									<div class="col-12">
+										<label>Phone Number *</label>
+										<input type="text" class="form-control" name="phone_number" required>
+										<small style="color: red;" id="phone_number_errmsg"></small>
+									</div><!-- End .col-sm-6 -->
+								</div><!-- End .row -->
+
+								<div class="row">
+									<div class="col-12">
+										<label>Email</label>
+										<input type="text" class="form-control" name="email">
+										<small style="color: red;" id="email_errmsg"></small>
+									</div><!-- End .col-sm-6 -->
+								</div><!-- End .row -->
+
+								<div class="row">
+									<div class="col-12" style="height: 50px;">
+										<label>Address *</label>
+										<textarea 
+											class="form-control" 
+											cols="30" 
+											rows="4"
+											name="address" 
+											required></textarea>
+										<small style="color: red;" id="address_errmsg"></small>
+									</div><!-- End .col-sm-6 -->
+								</div><!-- End .row -->
+						</div><!-- End .col-lg-9 -->
+						<aside class="col-lg-5">
+							<div class="summary">
+								<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+								<table class="table table-summary">
+									<thead>
+										<tr>
+											<th>Product</th>
+											<th>Total</th>
+										</tr>
+									</thead>
+
+									<tbody id="cart_item_table_body"></tbody>
+								</table><!-- End .table table-summary -->
+
+								<div class="accordion-summary">
+									<div class="custom-control custom-radio">
+										<input type="radio" id="pm_cod" name="payment_method" value="cod" class="custom-control-input">
+										<label class="custom-control-label" for="pm_cod">Cash on delivery</label>
+									</div>
+									<div class="custom-control custom-radio" style="margin-top: 10px;">
+										<input type="radio" id="pm_online" name="payment_method" value="online" class="custom-control-input">
+										<label class="custom-control-label" for="pm_online">Pay with bKash</label>
+										<input
+											style="margin-top: 10px;"
+											class="form-control"
+											placeholder="Transaction Id (TrxID)"
+											name="transaction_id"
+											required
+										/>
+										<small style="color: red;" id="trxid_errmsg"></small>
+									</div>
+								</div>
+
+								<button type="submit" onclick="placeOrder()" class="btn btn-outline-primary-2 btn-order btn-block">
+									<span class="btn-text">Place Order</span>
+									<span class="btn-hover-text">Proceed to Checkout</span>
+								</button>
+							</div><!-- End .summary -->
+						</aside><!-- End .col-lg-3 -->
+					</div><!-- End .row -->
+				</form>
+			</div><!-- End .container -->
+		</div><!-- End .checkout -->
+	</div><!-- End .page-content -->
+</main><!-- End .main -->
+
+<!-- <div style="margin: 120px 0px 80px 0px" id="checkout_container">
 	<div class="container">
 		<h3 class="section-header" id="checkout_header">CHECKOUT</h3>
 		<div class="row" style="margin-top: 30px;" id="checkout_form">
@@ -115,7 +223,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 {% endblock %}
 
