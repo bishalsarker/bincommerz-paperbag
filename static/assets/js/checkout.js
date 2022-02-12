@@ -1,5 +1,16 @@
 var shipping_charge = 150.00;
 
+var cart_items = JSON.parse(localStorage.getItem('cart_items'));
+
+	if (cart_items.length === 0) {
+		var checkout_container = document.getElementById('checkout_container');
+		checkout_container.style.display = 'none';
+
+		window.location.href = '/';
+	}
+
+	setSavedShippingValues();
+
 function setSavedShippingValues() {
     var shipping_details = localStorage.getItem("shipping_details");
 

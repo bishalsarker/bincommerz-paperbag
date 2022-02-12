@@ -205,6 +205,21 @@ app.get('/checkout', async (req, res) => {
   });
 });
 
+app.get('/orders', async (req, res) => {
+  const layout = await _layoutService.resolveLayout();
+  const pages = await _pageService.getPages();
+
+  env.addGlobal('layout', layout);
+
+  res.render('orders.html', {
+      page_data: {
+        title: 'Frequently Asked Questions',
+        faq_list: pages?.faq,
+        show_cart: true
+    }
+  });
+});
+
 app.get('/pages/:type/:slug', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
   const pageData = await _pageService.getPage(req.params.type, req.params.slug);

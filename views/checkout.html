@@ -7,7 +7,7 @@
 
 {% block content %}
 
-<main class="main">
+<main class="main" id="checkout_container">
 	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
 		<div class="container">
 			<h1 class="page-title" id="checkout_header">Checkout</h1>
@@ -228,35 +228,34 @@
 
 
 {% block additional_scripts %}
+<script>
+	var cart_items = JSON.parse(localStorage.getItem('cart_items'));
 
-		<script>
-			var cart_items = JSON.parse(localStorage.getItem('cart_items'));
+	if (cart_items.length === 0) {
+		var checkout_container = document.getElementById('checkout_container');
+		checkout_container.style.display = 'none';
 
-			if(cart_items.length === 0) {
-				var checkout_container = document.getElementById('checkout_container');
-				checkout_container.style.display = 'none';
+		window.location.href = '/';
+	}
 
-				window.location.href = '/';
-			}
+	setSavedShippingValues();
+	renderCartItemsTable();
 
-			setSavedShippingValues();
-			renderCartItemsTable();
+	document.getElementsByName("payment_method")[0].checked = true;
+	document.getElementsByName("transaction_id")[0].style.display = "none";
+	document.getElementById("trxid_errmsg").style.display = "none";
 
-			document.getElementsByName("payment_method")[0].checked = true;
-			document.getElementsByName("transaction_id")[0].style.display = "none";
-			document.getElementById("trxid_errmsg").style.display = "none";
+	document.getElementsByName("payment_method")[0].addEventListener('click', event => {
+		document.getElementsByName("transaction_id")[0].style.display = "none";
+		document.getElementById("trxid_errmsg").style.display = "none";
+	});
 
-			document.getElementsByName("payment_method")[0].addEventListener('click', event => {
-				document.getElementsByName("transaction_id")[0].style.display = "none";
-				document.getElementById("trxid_errmsg").style.display = "none";
-			});
-
-			document.getElementsByName("payment_method")[1].addEventListener('click', event => {
-				document.getElementsByName("transaction_id")[0].style.display = "block";
-				document.getElementById("trxid_errmsg").style.display = "block";
-			});
-			
-		</script>
+	document.getElementsByName("payment_method")[1].addEventListener('click', event => {
+		document.getElementsByName("transaction_id")[0].style.display = "block";
+		document.getElementById("trxid_errmsg").style.display = "block";
+	});
+	
+</script>
 
 {% endblock %}
 

@@ -1,0 +1,61 @@
+{% extends '__main.html' %}
+
+{% block seo_meta %}
+<meta name="title" content="{{ page_data.title }}" />
+<meta name="robots" content="index, follow" />
+
+<meta property="og:title" content="{{ page_data.title }}" />
+<meta property="og:url" content="{{ shop_info.url }}/{{ page_data.cat_slug }}" />
+<meta property="og:type" content="webite" />
+<meta property="og:description" content="{{ shop_info.description }}" />
+<meta property="og:image" content="{{ shop_info.logo }}" />
+{% endblock %}
+
+{% block content %}
+<main class="main">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Orders</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+      <div class="cart">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-9">
+                <table class="table table-cart table-mobile">
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Placed On</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="order_items_container">
+                  </tbody>
+                </table><!-- End .table table-wishlist -->
+              </div><!-- End .col-lg-9 -->
+              <aside class="col-lg-3">
+                <div class="summary summary-cart">
+                  <h3 class="summary-title">Order Details</h3><!-- End .summary-title -->
+
+                  <div id="order_details_container">
+                  </div>
+                </div>
+              </aside><!-- End .col-lg-3 -->
+            </div><!-- End .row -->
+          </div><!-- End .container -->
+      </div><!-- End .cart -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+<script>
+</script>
+
+{% endblock %}
