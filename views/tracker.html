@@ -6,35 +6,46 @@
 {% endblock %}
 
 {% block content %}
-<div style="margin: 120px 0px 80px 0px" id="checkout_container">
-	<div class="container">
-		<h3 class="section-header" id="checkout_header">ORDER TRACKER</h3>
-        
-        {% if page_data.show_tracking_data == False %}
+<main class="main">
+	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+		<div class="container">
+			<h1 class="page-title" id="checkout_header">Order Tracker</h1>
+		</div><!-- End .container -->
+	</div><!-- End .page-header -->
+	<nav aria-label="breadcrumb" class="breadcrumb-nav">
+		<div class="container">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+				<li class="breadcrumb-item"><a href="#">Shop</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Order Tracker</li>
+			</ol>
+		</div><!-- End .container -->
+	</nav><!-- End .breadcrumb-nav -->
 
-        <div class="container" id="order_id_search_box" style="margin-top: 6%;">
-            <div class="row d-flex justify-content-center">
+	<div class="page-content" id="checkout_form">
+        {% if page_data.show_tracking_data == false %}
+		<div class="container" id="order_id_search_box">
+            <div class="row d-flex">
                 <div class="col-lg-6 col-md-12">
                     <div class="w-100">
-                        <input type="text" class="form-control" placeholder="Order ID" name="order_id" required>
+                        <input type="text" class="form-control" style="margin-bottom: 5px;" placeholder="Order ID" name="order_id" required>
                         <small style="color: red;" id="track_id_errmsg"></small>
                     </div>
-                    <button 
-                        class="exclusive btn-ex-red" 
-                        style="margin: 8% auto;"
+                    <button
+                        style="margin-top: 20px;"
+                        class="btn btn-primary" 
                         onclick="trackOrder()">
                         <span>TRACK NOW</span>
                     </button>
                 </div>
             </div>
         </div>
-
         {% endif %}
 
-        {% if page_data.show_tracking_data == True %}
+        {% if page_data.show_tracking_data == true %}
 
         <div class="container">
-            {% if page_data.tracking_data == None %}
+            {% if page_data.tracking_data == null %}
             <div style="text-align: center; margin-bottom: 30px;">
                 <h5>Invalid Order ID</h5>
                 <h4 *ngIf="orderId" class="w-100" style="color: #e25050;">
@@ -50,7 +61,7 @@
 
             {% endif %}
 
-            {% if page_data.tracking_data != None %}
+            {% if page_data.tracking_data != null %}
             <div style="text-align: center; margin-bottom: 30px;">
                 <h5>Tracking Order ID</h5>
                 <h4 *ngIf="orderId" class="w-100" style="color: #e25050;">
@@ -85,7 +96,7 @@
     
                 <div class="col-12" style="margin-top: 30px;">
                     <p style="text-align: center;">
-                        Do you want to track another order? <a href="/order_tracker">Click here</a>
+                        Do you want to track another order? <a href="/order/tracker">Click here</a>
                     </p>
                 </div>
             </div>
@@ -93,36 +104,7 @@
         </div>
 
         {% endif %}
-
-	</div>
-</div>
-
-{% endblock %}
-
-
-{% block additional_scripts %}
-
-<script>
-    var tracking_dates = document.getElementsByClassName("tracking-date");
-    console.log(tracking_dates.length);
-    for(i = 0; i < tracking_dates.length; i++) {
-        var iso_date = tracking_dates[i].innerText.split(".")[0] + ".000Z";
-        var local_date = new Date(new Date(iso_date).toString());
-        tracking_dates[i].innerText = moment(local_date).format("dddd, MMMM Do YYYY, h:mm a");
-    }
-
-    function trackOrder() {
-        var order_id = document.getElementsByName("order_id")[0].value;
-        var track_id_errmsg = document.getElementById("track_id_errmsg");
-
-        track_id_errmsg.innerText = "";
-
-        if (order_id === "") {
-            track_id_errmsg.innerText = "Please provide an order id to track"
-        } else {
-            window.location.href = '/order_tracker?track_id=' + order_id;
-        }
-    }
-</script>
+	</div><!-- End .page-content -->
+</main><!-- End .main -->
 
 {% endblock %}

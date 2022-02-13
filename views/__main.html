@@ -53,6 +53,52 @@
         .fa-envelope:before {
             font-size: 23px;
         }
+
+        .tracking-item {
+            border-left: 1px solid #c4c4c4dc;
+            position: relative;
+            padding: 2rem 1.5rem 0.5rem 3.5rem;
+            font-size: 1.4rem;
+            margin-left: 5rem;
+            min-height: 5rem;
+        }
+
+        .tracking-icon {
+            line-height: 2.6rem;
+            position: absolute;
+            left: -2rem;
+            width: 2.6rem;
+            height: 2.6rem;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 20px;
+            background-color: #fff;
+            color: #999999;
+        }
+
+        .active-stage {
+            color: yellowgreen;
+        }
+
+        .order-canceled {
+            color: #e25050;
+        }
+
+        .tracking-content {
+            padding: 1rem 2rem;
+            background-color: #ecececdc;
+            border-radius: 0.5rem;
+        }
+
+        .tracking-date {
+            padding-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .tracking-item {
+                margin-left: 3rem;
+            }
+        }
     </style>
 </head>
 
@@ -323,11 +369,18 @@
         crossorigin="anonymous"
         referrerpolicy="no-referrer"
     ></script>
+    <script
+			src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+			integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
     <!-- Main JS File -->
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/cart_service.js"></script>
     <script src="/assets/js/checkout.js"></script>
     <script src="/assets/js/orders.js"></script>
+    <script src="/assets/js/order_track.js"></script>
     <!-- <script src="/assets/js/demos/demo-4.js"></script> -->
     {% block additional_scripts %}{% endblock %}
 </body>

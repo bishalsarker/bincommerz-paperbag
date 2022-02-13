@@ -220,6 +220,24 @@ app.get('/orders', async (req, res) => {
   });
 });
 
+app.get('/order/tracker', async (req, res) => {
+  const layout = await _layoutService.resolveLayout();
+  const order_id = req.query.oid ? req.query.oid as string : null;
+  const trackingData = await _orderService.trackOrder(order_id);
+
+  env.addGlobal('layout', layout);
+
+  res.render('tracker.html', {
+      page_data: {
+        title: "Order Tracker",
+        show_tracking_data: order_id ? true : false,
+        tracking_data: trackingData.length > 0 ? trackingData : null ,
+        order_id: req.query.oid,
+        show_cart: true
+    }
+  });
+});
+
 app.get('/pages/:type/:slug', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
   const pageData = await _pageService.getPage(req.params.type, req.params.slug);

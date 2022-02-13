@@ -84,7 +84,7 @@ function viewOrderDetails(order_id) {
 			</tr><!-- End .summary-subtotal -->
 			</tbody>
 		</table><!-- End .table table-summary -->
-		<a href="/order/track?id=${order.id}" class="btn btn-outline-primary-2 btn-order btn-block">TRACK ORDER</a>
+		<a href="/order/tracker?oid=${order.id}" class="btn btn-outline-primary-2 btn-order btn-block">TRACK ORDER</a>
 		</div>`
 	}
 }
