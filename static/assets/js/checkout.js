@@ -195,6 +195,7 @@ function placeOrder() {
                 checkout_form.innerHTML = "";
 
                 updateCartCount();
+                updateOrderCount();
 
                 var order_id_section = createElement({
                     tag_name: 'div',

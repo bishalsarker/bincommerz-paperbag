@@ -51,12 +51,28 @@
                             <div class="details-filter-row details-row-size">
                                 <label for="qty">Qty:</label>
                                 <div class="product-details-quantity">
-                                    <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                    <input type="number" id="product_quantity" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
                                 </div><!-- End .product-details-quantity -->
                             </div><!-- End .details-filter-row -->
 
                             <div class="product-details-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                <a
+                                  onclick="addToCart('{{ page_data.product_data.id }}', '{{ page_data.product_data.name }}', '{{ page_data.product_data.imageUrl }}', '{{ page_data.product_data.price - (page_data.product_data.price * (page_data.product_data.discount / 100)) }}', getQuantity());"
+                                  style="cursor: pointer;" 
+                                  class="btn-product btn-cart">
+                                  <span>add to cart</span>
+                                </a>
+                                <script>
+                                    function getQuantity() {
+                                        var qunatity = document.getElementById('product_quantity').value;
+                                
+                                        if (qunatity < 1) {
+                                            qunatity = 1;
+                                        }
+                                
+                                        return qunatity;
+                                    }
+                                </script>
                             </div><!-- End .product-details-action -->
                         </div><!-- End .product-details -->
                     </div><!-- End .col-md-6 -->
@@ -91,17 +107,3 @@
     </div><!-- End .page-content -->
 </main>
 {% endblock %} 
-
-{% block additional_scripts %}
-<script>
-    function getQuantity() {
-        var qunatity = document.getElementsByName('product_quantity')[0].value;
-
-        if (qunatity < 1) {
-            qunatity = 1;
-        }
-
-        return qunatity;
-    }
-</script>
-{% endblock %}

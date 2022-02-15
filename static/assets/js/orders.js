@@ -32,10 +32,11 @@ function openOrders() {
 
 	renderOrderItems(orders.reverse());
 
-	console.log(orders.length > 0)
-
 	if (orders.length > 0) {
 		viewOrderDetails(orders[0].id);
+	} else {
+		var order_details_container = document.getElementById('order_details_container');
+		order_details_container.innerHTML = `<p style="margin-top: 10px;">No order is selected</p>`
 	}
 }
 

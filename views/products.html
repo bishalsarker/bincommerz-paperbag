@@ -61,7 +61,13 @@
                                     </a>
         
                                     <div class="product-action">
-                                        <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                        <a 
+                                          onclick="addToCart('{{ item.id }}', '{{ item.name }}', '{{ item.imageUrl }}', '{{ item.price - (item.price * (item.discount / 100)) }}', 1);" 
+                                          style="cursor: pointer;"
+                                          class="btn-product btn-cart" 
+                                          title="Add to cart">
+                                          <span>add to cart</span>
+                                        </a>
                                     </div><!-- End .product-action -->
                                   </figure><!-- End .product-media -->
           
