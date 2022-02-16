@@ -1,4 +1,7 @@
-const api_host = "https://localhost:5001/shop/";
+const api_host_dev = "https://localhost:5001/shop/";
+const api_host_prod = "https://api-core.bincommerz.com/shop/";
+
+const api_host = process.env.NODE_ENV === "production" ? api_host_prod : api_host_dev;
 
 export const api_endpoints: any = {
     get_categories: api_host + "categories",
