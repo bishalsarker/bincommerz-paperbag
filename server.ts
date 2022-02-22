@@ -29,7 +29,9 @@ var env = nunjucks.configure('views', {
 app.set('view engine', 'html');
 app.use(express.static('static'))
 
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+if (process.env.NODE_ENV !== "production") {
+  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+}
 
 const _productService = new ProductService();
 const _categoryService = new CategoryService();
@@ -64,7 +66,7 @@ app.get('/product/:id', async (req, res) => {
       page_data: {
         title: productData?.name,
         product_data: productData,
-        product_id: productData?.id,
+        product_id: req.params.id,
         default_gallery_image: productData?.images[0],
         show_cart: true
       }
@@ -183,7 +185,7 @@ app.get('/cart', async (req, res) => {
 
   res.render('cart.html', {
       page_data: {
-        title: 'Frequently Asked Questions',
+        title: 'My Cart',
         faq_list: pages?.faq,
         show_cart: true
     }
@@ -198,7 +200,7 @@ app.get('/checkout', async (req, res) => {
 
   res.render('checkout.html', {
       page_data: {
-        title: 'Frequently Asked Questions',
+        title: 'Checkout',
         faq_list: pages?.faq,
         show_cart: true
     }
@@ -213,7 +215,7 @@ app.get('/orders', async (req, res) => {
 
   res.render('orders.html', {
       page_data: {
-        title: 'Frequently Asked Questions',
+        title: 'My Orders',
         faq_list: pages?.faq,
         show_cart: true
     }
@@ -277,4 +279,3 @@ app.post('/place-order', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`)
 });
-

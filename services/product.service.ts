@@ -31,8 +31,6 @@ export class ProductService {
         parameters.push('page_number=' + page_number);
 
         url = url + parameters.join('&');
-
-        console.log(url);
             
         const response = await this._httpClient.get<PaginationResponse>(url);
         let resolved_response: any[] = [];

@@ -1,15 +1,15 @@
 {% extends '__main.html' %}
 
 {% block seo_meta %}
-<meta name="title" content="{{ shop_info.name }}" />
-<meta name="description" content="{{ shop_info.description }}" />
+<meta name="title" content="{{ layout.shop_info.name }}" />
+<meta name="description" content="{{ layout.shop_info.description }}" />
 <meta name="robots" content="index, follow" />
 
-<meta property="og:title" content="{{ shop_info.name }}" />
-<meta property="og:url" content="{{ shop_info.url }}" />
+<meta property="og:title" content="{{ layout.shop_info.name }}" />
+<meta property="og:url" content="{{ layout.shop_info.url }}" />
 <meta property="og:type" content="webite" />
-<meta property="og:description" content="{{ shop_info.description }}" />
-<meta property="og:image" content="{{ shop_info.logo }}" />
+<meta property="og:description" content="{{ layout.shop_info.description }}" />
+<meta property="og:image" content="{{ layout.shop_info.logo }}" />
 <style></style>
 <script>var sliders = [];</script>
 {% endblock %}

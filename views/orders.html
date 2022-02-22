@@ -2,13 +2,7 @@
 
 {% block seo_meta %}
 <meta name="title" content="{{ page_data.title }}" />
-<meta name="robots" content="index, follow" />
-
-<meta property="og:title" content="{{ page_data.title }}" />
-<meta property="og:url" content="{{ shop_info.url }}/{{ page_data.cat_slug }}" />
-<meta property="og:type" content="webite" />
-<meta property="og:description" content="{{ shop_info.description }}" />
-<meta property="og:image" content="{{ shop_info.logo }}" />
+<meta name="robots" content="index, nofollow" />
 {% endblock %}
 
 {% block content %}
