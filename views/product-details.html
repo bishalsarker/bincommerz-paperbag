@@ -44,9 +44,20 @@
                         <div class="product-details">
                             <h1 class="product-title">{{page_data.product_data.name}}</h1><!-- End .product-title -->
 
-                            <div class="product-price">
-                                Tk {{page_data.product_data.price}}
+                            <div class="product-price" style="margin-bottom: 1.5rem;">
+                                {% if page_data.product_data.discount > 0.00 %}
+                                <span class="new-price">Tk. {{ page_data.product_data.price - (page_data.product_data.price * (page_data.product_data.discount / 100)) }}</span>
+                                <span style="text-decoration: line-through;" class="old-price">
+                                  {{ page_data.product_data.price }}
+                                </span>
+                                {% else %}
+                                <span class="new-price">Tk. {{ page_data.product_data.price }}</span>
+                                {% endif %}
                             </div><!-- End .product-price -->
+
+                            <div style="margin-bottom: 1.5rem;">
+                                <p style="font-weight: 400; font-size: 20px;"><span class="badge" style="color: white; background-color: #ef837b;">{{ page_data.product_data.discount }} % OFF</span></p>
+                            </div>
 
                             <div class="details-filter-row details-row-size">
                                 <label for="qty">Qty:</label>

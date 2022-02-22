@@ -36,6 +36,7 @@ export class ProductService {
         let resolved_response: any[] = [];
         if (response) {
             resolved_response = response.products.map((p) => {
+                p.discount = Math.round(p.discount as number);
                 return this._resolvers.resolveImageUrl(p, ["imageUrl"]);
             });
 

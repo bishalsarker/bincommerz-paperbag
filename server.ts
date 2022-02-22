@@ -11,7 +11,7 @@ import { ShopService } from './services/shop.service';
 import { TemplateService } from './services/template.service';
 
 var app = express();
-const PORT = '8000';
+const PORT = process.env.PORT || 8000;
 
 app.use(
   express.urlencoded({

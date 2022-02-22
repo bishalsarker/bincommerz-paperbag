@@ -70,16 +70,18 @@
                                   </figure><!-- End .product-media -->
           
                                   <div class="product-body">
-                                      <h3 class="product-title"><a href="/product/{{ item.id }}">{{ item.name }}</a></h3><!-- End .product-title -->
-                                      <div class="product-price">
-                                          <span class="new-price">Tk. {{ item.price }}</span>
-                                          {% if item.discount > 0.00 %}
-                                          <span style="text-decoration: line-through;" class="old-price">
-                                              {{ item.price - (item.price * (item.discount / 100)) }}
-                                          </span>
-                                          {% endif %}
-                                      </div><!-- End .product-price -->
-                                  </div><!-- End .product-body -->
+                                    <h3 class="product-title"><a href="/product/{{ item.id }}">{{ item.name }}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        {% if item.discount > 0.00 %}
+                                        <span class="new-price">Tk. {{ item.price - (item.price * (item.discount / 100)) }}</span>
+                                        <span style="text-decoration: line-through;" class="old-price">
+                                          {{ item.price }}
+                                        </span>
+                                        {% else %}
+                                        <span class="new-price">Tk. {{ item.price }}</span>
+                                        {% endif %}
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
                                 </div><!-- End .product -->
                             </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
                             {% endfor %}
