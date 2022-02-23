@@ -155,10 +155,13 @@ function placeOrder() {
         place_order_btn.innerHTML ="<span>PLACING ORDER...</span>";
         place_order_btn.disabled = true;
 
-        $.ajax('/place-order', {
+        $.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderPayload),
+            headers: {
+                shop_id: "c186a01b40e849d9987d03753b444cfd",
+            },
             success: function (response, status, xhr) {
                 var orders = JSON.parse(localStorage.getItem('orders'));
                 orders.push({
