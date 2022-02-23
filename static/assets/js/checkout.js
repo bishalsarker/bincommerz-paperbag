@@ -162,7 +162,7 @@ function placeOrder() {
             success: function (response, status, xhr) {
                 var orders = JSON.parse(localStorage.getItem('orders'));
                 orders.push({
-                    id: response.id,
+                    id: response.data.id,
                     fullName: document.getElementsByName("full_name")[0].value,
                     phone: document.getElementsByName("phone_number")[0].value,
                     email: document.getElementsByName("email")[0].value,
@@ -173,18 +173,14 @@ function placeOrder() {
                 });
 
                 localStorage.setItem('orders', JSON.stringify(orders));
-                // updateOrderCount();
+                updateOrderCount();
 
-                var shipping_details = localStorage.getItem("shipping_details");
-
-                if (!shipping_details) {
-                    localStorage.setItem("shipping_details", JSON.stringify({
-                        fullName: document.getElementsByName("full_name")[0].value,
-                        phone: document.getElementsByName("phone_number")[0].value,
-                        email: document.getElementsByName("email")[0].value,
-                        address: document.getElementsByName("address")[0].value,
-                    }));
-                }
+                localStorage.setItem("shipping_details", JSON.stringify({
+                    fullName: document.getElementsByName("full_name")[0].value,
+                    phone: document.getElementsByName("phone_number")[0].value,
+                    email: document.getElementsByName("email")[0].value,
+                    address: document.getElementsByName("address")[0].value,
+                }));
 
                 localStorage.setItem('cart_items', '[]');
                 
@@ -215,7 +211,7 @@ function placeOrder() {
                     attributes: {
                         style: 'color: #e25050;'
                     },
-                    inner_text: response.id
+                    inner_text: response.data.id
                 });
 
                 var instruction = createElement({

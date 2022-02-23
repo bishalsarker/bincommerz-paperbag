@@ -37,6 +37,12 @@ export class ProductService {
         if (response) {
             resolved_response = response.products.map((p) => {
                 p.discount = Math.round(p.discount as number);
+
+                if (p.discount > 0) {
+                    p.oldPrice = p.price;
+                    p.price = Math.round(p.price as number - (p.price as number * (p.discount as number / 100)))
+                }
+
                 return this._resolvers.resolveImageUrl(p, ["imageUrl"]);
             });
 

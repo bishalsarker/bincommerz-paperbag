@@ -60,7 +60,7 @@
         
                                     <div class="product-action">
                                         <a 
-                                          onclick="addToCart('{{ item.id }}', '{{ item.name }}', '{{ item.imageUrl }}', '{{ item.price - (item.price * (item.discount / 100)) }}', 1);" 
+                                          onclick="addToCart('{{ item.id }}', '{{ item.name }}', '{{ item.imageUrl }}', '{{ item.price }}', 1);" 
                                           style="cursor: pointer;"
                                           class="btn-product btn-cart" 
                                           title="Add to cart">
@@ -73,9 +73,9 @@
                                     <h3 class="product-title"><a href="/product/{{ item.id }}">{{ item.name }}</a></h3><!-- End .product-title -->
                                     <div class="product-price">
                                         {% if item.discount > 0.00 %}
-                                        <span class="new-price">Tk. {{ item.price - (item.price * (item.discount / 100)) }}</span>
+                                        <span class="new-price">Tk. {{ item.price }}</span>
                                         <span style="text-decoration: line-through;" class="old-price">
-                                          {{ item.price }}
+                                          {{ item.oldPrice }}
                                         </span>
                                         {% else %}
                                         <span class="new-price">Tk. {{ item.price }}</span>

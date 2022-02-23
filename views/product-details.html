@@ -46,18 +46,20 @@
 
                             <div class="product-price" style="margin-bottom: 1.5rem;">
                                 {% if page_data.product_data.discount > 0.00 %}
-                                <span class="new-price">Tk. {{ page_data.product_data.price - (page_data.product_data.price * (page_data.product_data.discount / 100)) }}</span>
+                                <span class="new-price">Tk. {{ page_data.product_data.price }}</span>
                                 <span style="text-decoration: line-through;" class="old-price">
-                                  {{ page_data.product_data.price }}
+                                  {{ page_data.product_data.oldPrice }}
                                 </span>
                                 {% else %}
                                 <span class="new-price">Tk. {{ page_data.product_data.price }}</span>
                                 {% endif %}
                             </div><!-- End .product-price -->
 
+                            {% if page_data.product_data.discount > 0.00 %}
                             <div style="margin-bottom: 1.5rem;">
                                 <p style="font-weight: 400; font-size: 20px;"><span class="badge" style="color: white; background-color: #ef837b;">{{ page_data.product_data.discount }} % OFF</span></p>
                             </div>
+                            {% endif %}
 
                             <div class="details-filter-row details-row-size">
                                 <label for="qty">Qty:</label>
@@ -68,7 +70,7 @@
 
                             <div class="product-details-action">
                                 <a
-                                  onclick="addToCart('{{ page_data.product_data.id }}', '{{ page_data.product_data.name }}', '{{ page_data.product_data.imageUrl }}', '{{ page_data.product_data.price - (page_data.product_data.price * (page_data.product_data.discount / 100)) }}', getQuantity());"
+                                  onclick="addToCart('{{ page_data.product_id }}', '{{ page_data.product_data.name }}', '{{ page_data.product_data.imageUrl }}', '{{ page_data.product_data.price }}', getQuantity());"
                                   style="cursor: pointer;" 
                                   class="btn-product btn-cart">
                                   <span>add to cart</span>

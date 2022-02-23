@@ -4,8 +4,14 @@ import { HttpClient } from "../utils/http.util";
 export class OrderService {
     private _httpClient: HttpClient = new HttpClient();
 
-    public async placeOrder(payload: any): Promise<any | null> {
-        return await this._httpClient.post<any>(api_endpoints.place_order, payload);
+    public placeOrder(payload: any): Promise<any> {
+        return new Promise((resolve) => { 
+            this._httpClient.getClient()
+            .post<any>(api_endpoints.place_order, payload)
+            .then((response) => {
+                resolve(response.data);
+            });
+        });
     }
 
     public async trackOrder(order_id: string | null): Promise<any | null> {

@@ -6,6 +6,7 @@ export interface Product {
     images: ProductImageGalleryItem[];
     price: Number;
     discount: Number;
+    oldPrice: Number;
     inStock: Boolean;
     stockQuantity: Number;
     tags: String[];
