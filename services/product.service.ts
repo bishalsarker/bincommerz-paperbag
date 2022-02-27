@@ -36,11 +36,9 @@ export class ProductService {
         let resolved_response: any[] = [];
         if (response) {
             resolved_response = response.products.map((p) => {
-                p.discount = Math.round(p.discount as number);
-
                 if (p.discount > 0) {
                     p.oldPrice = p.price;
-                    p.price = Math.round(p.price as number - (p.price as number * (p.discount as number / 100)))
+                    p.price = p.discount;
                 }
 
                 return this._resolvers.resolveImageUrl(p, ["imageUrl"]);
@@ -55,7 +53,12 @@ export class ProductService {
     public async getProduct(product_id: String): Promise<Product | null> {
         let product = await this._httpClient.get<Product>(api_endpoints.get_product_details + product_id);
 
-        if (product) {
+        if (product) {               
+            if (product.discount > 0) {
+                product.oldPrice = product.price;
+                product.price = product.discount;
+            }
+
             const resolved_item = this._resolvers.resolveImageUrl(product, ["imageUrl"]) as Product;
             resolved_item.images = resolved_item.images.map((i) => {
                 return this._resolvers.resolveImageUrl(i, ["originalImage", "thumbnailImage"])

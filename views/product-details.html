@@ -55,9 +55,9 @@
                                 {% endif %}
                             </div><!-- End .product-price -->
 
-                            {% if page_data.product_data.discount > 0.00 %}
+                            {% if page_data.product_data.discountInPercentage > 0.00 %}
                             <div style="margin-bottom: 1.5rem;">
-                                <p style="font-weight: 400; font-size: 20px;"><span class="badge" style="color: white; background-color: #ef837b;">{{ page_data.product_data.discount }} % OFF</span></p>
+                                <p style="font-weight: 400; font-size: 20px;"><span class="badge" style="color: white; background-color: #ef837b;">{{ page_data.product_data.discountInPercentage }} % OFF</span></p>
                             </div>
                             {% endif %}
 

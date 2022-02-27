@@ -125,8 +125,8 @@
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="product product-2">
                         <figure class="product-media">
-                            {% if item.discount > 0.00 %}
-                            <span class="product-label label-circle label-sale">{{ item.discount }}% OFF</span>
+                            {% if item.discountInPercentage > 0 %}
+                            <span class="product-label label-circle label-sale">{{ item.discountInPercentage }}% OFF</span>
                             {% endif %}
                             <a href="/product/{{ item.id }}">
                                 <img src="{{ item.imageUrl }}" alt="Product image" class="product-image">
