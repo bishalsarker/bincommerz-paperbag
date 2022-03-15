@@ -195,6 +195,12 @@ app.get('/cart', async (req, res) => {
 app.get('/checkout', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
   const pages = await _pageService.getPages();
+  const deliveryCharges = await _orderService.getDeliveryCharges();
+  const defaultShipping = {
+    id: "00000",
+    title: "default-delivery-charge",
+    amount: 0
+  }
 
   env.addGlobal('layout', layout);
 
@@ -202,7 +208,9 @@ app.get('/checkout', async (req, res) => {
       page_data: {
         title: 'Checkout',
         faq_list: pages?.faq,
-        show_cart: true
+        show_cart: true,
+        deliveryCharges: deliveryCharges,
+        defaultDeliveryCharge: deliveryCharges.length > 0 ? deliveryCharges[0] : defaultShipping
     }
   });
 });

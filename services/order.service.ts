@@ -17,4 +17,8 @@ export class OrderService {
     public async trackOrder(order_id: string | null): Promise<any | null> {
         return await this._httpClient.get<any>(`${api_endpoints.track_order}${order_id}`);
     }
+
+    public async getDeliveryCharges(): Promise<any | null> {
+        return await this._httpClient.get<any>(`${api_endpoints.delivery_charges}`);
+    }
 }

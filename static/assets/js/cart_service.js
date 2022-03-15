@@ -1,5 +1,5 @@
 var cart_storage = localStorage.getItem('cart_items');
-var shipping_charge = 110;
+// var shipping_charge = 110;
 
 if (!cart_storage) {
 	localStorage.setItem('cart_items', '[]');
@@ -337,12 +337,16 @@ function updateCartTableTotalPrice() {
 	var cart_subtotal = document.getElementById('cart-subtotal');
 	cart_subtotal.innerText = 'Tk ' + total_price;
 
-	var shipping_charge_el = document.getElementById('shipping-charge').checked;
-	var total_amount = document.getElementById('total-amount');
-
-	if (shipping_charge_el) {
-		total_amount.innerText = total_price + shipping_charge;
+	// var shipping_charge_el = document.getElementById('shipping-charge').checked;
+	
+	var delivery_charge = document.getElementById('delivery-charge-amount').value;
+	if (delivery_charge) {
+		delivery_charge = parseInt(delivery_charge);
+	} else {
+		delivery_charge = 0;
 	}
+	var total_amount = document.getElementById('total-amount');
+	total_amount.innerText = 'Tk ' + (total_price + delivery_charge);
 }
 
 function updateProductQuantity(productId, quantity) {

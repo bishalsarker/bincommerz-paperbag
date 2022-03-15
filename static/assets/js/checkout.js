@@ -47,20 +47,7 @@ function renderCartItemsTable() {
         total_items_price +=sub_total;
     });
 
-    order_details_table_content = order_details_table_content + `
-    <tr class="summary-subtotal">
-        <td>Subtotal:</td>
-        <td>Tk ${total_items_price}</td>
-    </tr>
-    <tr>
-        <td>Shipping:</td>
-        <td>Tk ${shipping_charge}</td>
-    </tr>
-    <tr class="summary-total">
-        <td>Total:</td>
-        <td>Tk ${total_items_price + shipping_charge}</td>
-    </tr>`;
-
+    order_details_table_content = order_details_table_content;
     cart_item_table_body.innerHTML = order_details_table_content;
 }
 
@@ -143,6 +130,7 @@ function placeOrder() {
             address: document.getElementsByName("address")[0].value,
             paymentMethod:  getPaymentMethod(),
             paymentNotes: "bKash TrxId: " + getTrxId(),
+            deliveryChargeId: document.getElementById('delivery-charge-id').value,
             items: JSON.parse(localStorage.getItem("cart_items")).map((item) => {
               return {
                 productId: item.productId,
@@ -155,7 +143,8 @@ function placeOrder() {
         place_order_btn.innerHTML ="<span>PLACING ORDER...</span>";
         place_order_btn.disabled = true;
 
-        $.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
+        // $.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
+        $.ajax('https://localhost:5001/shop/order/addnew', {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderPayload),

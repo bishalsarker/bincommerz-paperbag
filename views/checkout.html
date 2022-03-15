@@ -81,8 +81,42 @@
 									<tbody id="cart_item_table_body"></tbody>
 								</table><!-- End .table table-summary -->
 
-								<div class="accordion-summary">
-									<div class="custom-control custom-radio">
+								<div class="row summary-subtotal" style="margin-top: 10px; margin-bottom: 10px;">
+									<div class="col-6" style="color: #333; font-weight: 400; font-size: 1.6rem;">Subtotal:</div>
+									<div id="cart-subtotal" class="col-6" style="text-align: right;">N/A</div>
+									<div class="w-100" style="border-bottom: 0.1rem solid #ebebeb; margin: 10px;"></div>
+								</div>
+								<div class="row" style="margin-top: 20px;">
+									<div class="col-6" style="color: #333; font-weight: 400; font-size: 1.6rem;">Shipping:</div>
+								</div>
+								<div class="row">
+									<div class="col-12" style="margin-top: 10px;">
+									{% for item in page_data.deliveryCharges %}
+										{% if item.id == page_data.defaultDeliveryCharge.id %}
+										<div class="custom-control custom-radio" style="margin-top: 0px;">
+											<input type="radio" id="dc_{{ item.id }}" name="shipping-charge" class="custom-control-input" checked>
+											<label class="custom-control-label" for="free-shipping">Tk {{ item.amount }} ({{ item.title }})</label>
+										</div>
+										{% else %}
+										<div class="custom-control custom-radio" style="margin-top: 0px;">
+											<input type="radio" id="dc_{{ item.id }}" name="shipping-charge" class="custom-control-input">
+											<label class="custom-control-label" for="free-shipping">Tk {{ item.amount }} ({{ item.title }})</label>
+										</div>
+										{% endif %}
+									{% endfor %}
+									<input id="delivery-charge-amount" type="hidden" value="{{ page_data.defaultDeliveryCharge.amount }}">
+									<input id="delivery-charge-id" type="hidden" value="{{ page_data.defaultDeliveryCharge.id }}">
+									</div>
+									<div class="w-100" style="border-bottom: 0.1rem solid #ebebeb; margin: 10px;"></div>
+								</div>
+								<div class="row summary-total" style="margin-top: 10px;">
+									<div class="col-6" style="color: #333; font-weight: 400; font-size: 1.6rem;">Total:</div>
+									<div id="total-amount" class="col-6" style="text-align: right;">N/A</div>
+								</div>
+
+								<div class="accordion-summary" style="margin-top: 20px;">
+									<div style="color: #333; font-weight: 400; font-size: 1.6rem;">Payment Method:</div>
+									<div class="custom-control custom-radio" style="margin-top: 10px;">
 										<input type="radio" id="pm_cod" name="payment_method" value="cod" class="custom-control-input">
 										<label class="custom-control-label" for="pm_cod">Cash on delivery</label>
 									</div>
