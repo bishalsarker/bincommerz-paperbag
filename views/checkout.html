@@ -94,13 +94,13 @@
 									{% for item in page_data.deliveryCharges %}
 										{% if item.id == page_data.defaultDeliveryCharge.id %}
 										<div class="custom-control custom-radio" style="margin-top: 0px;">
-											<input type="radio" id="dc_{{ item.id }}" name="shipping-charge" class="custom-control-input" checked>
-											<label class="custom-control-label" for="free-shipping">Tk {{ item.amount }} ({{ item.title }})</label>
+											<input onclick="changeDeliveryCharge('{{ item.id }}', '{{ item.amount }}')" type="radio" id="{{ item.id }}" name="shipping_charge_op" value="{{ item.amount }}" class="custom-control-input" checked>
+											<label for="{{ item.id }}" class="custom-control-label">Tk {{ item.amount }} ({{ item.title }})</label>
 										</div>
 										{% else %}
 										<div class="custom-control custom-radio" style="margin-top: 0px;">
-											<input type="radio" id="dc_{{ item.id }}" name="shipping-charge" class="custom-control-input">
-											<label class="custom-control-label" for="free-shipping">Tk {{ item.amount }} ({{ item.title }})</label>
+											<input onclick="changeDeliveryCharge('{{ item.id }}', '{{ item.amount }}')" type="radio" id="{{ item.id }}" name="shipping_charge_op" value="{{ item.amount }}" class="custom-control-input">
+											<label for="{{ item.id }}" class="custom-control-label">Tk {{ item.amount }} ({{ item.title }})</label>
 										</div>
 										{% endif %}
 									{% endfor %}
@@ -145,118 +145,7 @@
 			</div><!-- End .container -->
 		</div><!-- End .checkout -->
 	</div><!-- End .page-content -->
-</main><!-- End .main -->
-
-<!-- <div style="margin: 120px 0px 80px 0px" id="checkout_container">
-	<div class="container">
-		<h3 class="section-header" id="checkout_header">CHECKOUT</h3>
-		<div class="row" style="margin-top: 30px;" id="checkout_form">
-			<div class="col-md-7 col-12">
-				<div class="customer-form">
-					<h4 style="text-align: center">Shipping Details</h4>
-					<div class="shipping-form border">
-                        <div class="form-group" id="shipping_form">
-                            <label for="exampleInputEmail1">Full Name&nbsp;<span style="color: red;"><b>*</b></span></label>
-                            <input
-								type="text"
-								class="form-control"
-								name="full_name"
-								required
-							/>
-							<small style="color: red;" id="full_name_errmsg"></small>
-                          </div>
-                          <div class="form-group">
-                            <label for="exampleInputPassword1">Phone Number&nbsp;<span style="color: red;"><b>*</b></span></label>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-								  <span class="input-group-text" id="basic-addon3">+880</span>
-								</div>
-								<input
-									class="form-control"
-									type="number"
-									name="phone_number"
-									required
-								/>
-							</div>
-							<small style="color: red;" id="phone_number_errmsg"></small>
-                          </div>
-                          <div class="form-group">
-                            <label for="exampleInputEmail">Email&nbsp;<span style="color: red;"><b>*</b></span></label>
-                            <input
-                                class="form-control"
-								name="email"
-								required
-							/>
-							<small style="color: red;" id="email_errmsg"></small>
-                          </div>
-                          <div class="form-group">
-                            <label for="exampleInputEmail">Address&nbsp;<span style="color: red;"><b>*</b></span></label>
-                            <textarea
-                                class="form-control"
-								name="address"
-                                rows="4"
-                                required
-                            ></textarea>
-							<small style="color: red;" id="address_errmsg"></small>
-                          </div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-5 col-12" style="padding-left: 30px">
-				<h4 style="text-align: center">Your Order</h4>
-				<div class="table-responsive" style="margin-top: 20px">
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th scope="col">Product</th>
-								<th scope="col">Subtotal</th>
-							</tr>
-						</thead>
-						<tbody id="cart_item_table_body">
-						</tbody>
-					</table>
-				</div>
-				<div
-					class="payment-method border"
-					style="padding: 20px; margin-top: 25px"
-				>
-					<p><b>Select a payment method</b></p>
-					<div class="custom-control custom-radio">
-						<input type="radio" id="pm_cod" name="payment_method" value="cod" class="custom-control-input">
-						<label class="custom-control-label" for="pm_cod">Cash on delivery</label>
-					</div>
-					<div class="custom-control custom-radio">
-						<input type="radio" id="pm_online" name="payment_method" value="online" class="custom-control-input">
-						<label class="custom-control-label" for="pm_online">Pay with bKash</label>
-						<input
-							style="margin-top: 10px;"
-							class="form-control"
-							placeholder="Transaction Id (TrxID)"
-							name="transaction_id"
-							required
-						/>
-						<small style="color: red;" id="trxid_errmsg"></small>
-					</div>
-				</div>
-				<button
-					class="exclusive btn-ex-red w-100"
-					style="margin-top: 8%"
-					onclick="placeOrder()"
-					id="place_order_btn"
-				>
-					<span id="place_order_btn_text">PLACE ORDER</span>
-				</button>
-				<button
-					class="exclusive btn-ex-blue w-100"
-					style="margin-top: 4%;"
-					onclick="window.location.href = '/'"
-				>
-					<span>CONTINUE SHOPPING</span>
-				</button>
-			</div>
-		</div>
-	</div>
-</div> -->
+</main>
 
 {% endblock %}
 

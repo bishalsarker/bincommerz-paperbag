@@ -196,10 +196,15 @@ app.get('/checkout', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
   const pages = await _pageService.getPages();
   const deliveryCharges = await _orderService.getDeliveryCharges();
+
   const defaultShipping = {
-    id: "00000",
+    id: "0000000000000000",
     title: "default-delivery-charge",
     amount: 0
+  }
+
+  if (deliveryCharges.length === 0) {
+    deliveryCharges.push(defaultShipping);
   }
 
   env.addGlobal('layout', layout);

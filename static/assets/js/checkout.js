@@ -143,8 +143,7 @@ function placeOrder() {
         place_order_btn.innerHTML ="<span>PLACING ORDER...</span>";
         place_order_btn.disabled = true;
 
-        // $.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
-        $.ajax('https://localhost:5001/shop/order/addnew', {
+        $.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderPayload),
@@ -152,164 +151,180 @@ function placeOrder() {
                 shop_id: "c186a01b40e849d9987d03753b444cfd",
             },
             success: function (response, status, xhr) {
-                var orders = JSON.parse(localStorage.getItem('orders'));
-                orders.push({
-                    id: response.data.id,
-                    fullName: document.getElementsByName("full_name")[0].value,
-                    phone: document.getElementsByName("phone_number")[0].value,
-                    email: document.getElementsByName("email")[0].value,
-                    address: document.getElementsByName("address")[0].value,
-                    paymentMethod:  getPaymentMethod(),
-                    orderedOn: new Date().toUTCString(),
-                    items: JSON.parse(localStorage.getItem("cart_items"))
-                });
+                if (response.isSuccess) {
+                    var orders = JSON.parse(localStorage.getItem('orders'));
+                    orders.push({
+                        id: response.data.id,
+                        fullName: document.getElementsByName("full_name")[0].value,
+                        phone: document.getElementsByName("phone_number")[0].value,
+                        email: document.getElementsByName("email")[0].value,
+                        address: document.getElementsByName("address")[0].value,
+                        paymentMethod:  getPaymentMethod(),
+                        orderedOn: new Date().toUTCString(),
+                        items: JSON.parse(localStorage.getItem("cart_items"))
+                    });
 
-                localStorage.setItem('orders', JSON.stringify(orders));
-                updateOrderCount();
+                    localStorage.setItem('orders', JSON.stringify(orders));
+                    updateOrderCount();
 
-                localStorage.setItem("shipping_details", JSON.stringify({
-                    fullName: document.getElementsByName("full_name")[0].value,
-                    phone: document.getElementsByName("phone_number")[0].value,
-                    email: document.getElementsByName("email")[0].value,
-                    address: document.getElementsByName("address")[0].value,
-                }));
+                    localStorage.setItem("shipping_details", JSON.stringify({
+                        fullName: document.getElementsByName("full_name")[0].value,
+                        phone: document.getElementsByName("phone_number")[0].value,
+                        email: document.getElementsByName("email")[0].value,
+                        address: document.getElementsByName("address")[0].value,
+                    }));
 
-                localStorage.setItem('cart_items', '[]');
-                
-                var checkout_header = document.getElementById("checkout_header");
-                checkout_header.innerText = "ORDER PLACED";
-                
-                var checkout_form = document.getElementById("checkout_form");
-                checkout_form.innerHTML = "";
+                    localStorage.setItem('cart_items', '[]');
+                    
+                    var checkout_header = document.getElementById("checkout_header");
+                    checkout_header.innerText = "ORDER PLACED";
+                    
+                    var checkout_form = document.getElementById("checkout_form");
+                    checkout_form.innerHTML = "";
 
-                updateCartCount();
-                updateOrderCount();
+                    updateCartCount();
+                    updateOrderCount();
 
-                var order_id_section = createElement({
-                    tag_name: 'div',
-                    attributes: {
-                        class: 'col-12',
-                        style: 'text-align: center;'
-                    }
-                });
+                    var order_id_section = createElement({
+                        tag_name: 'div',
+                        attributes: {
+                            class: 'col-12',
+                            style: 'text-align: center;'
+                        }
+                    });
 
-                var order_id_header = createElement({
-                    tag_name: 'h4',
-                    inner_text: 'Your Order ID'
-                });
+                    var order_id_header = createElement({
+                        tag_name: 'h4',
+                        inner_text: 'Your Order ID'
+                    });
 
-                var order_id_number = createElement({
-                    tag_name: 'h4',
-                    attributes: {
-                        style: 'color: #e25050;'
-                    },
-                    inner_text: response.data.id
-                });
+                    var order_id_number = createElement({
+                        tag_name: 'h4',
+                        attributes: {
+                            style: 'color: #e25050;'
+                        },
+                        inner_text: response.data.id
+                    });
 
-                var instruction = createElement({
-                    tag_name: 'p',
-                    inner_text: 'Please store this id for tracking your order'
-                });
+                    var instruction = createElement({
+                        tag_name: 'p',
+                        inner_text: 'Please store this id for tracking your order'
+                    });
 
-                order_id_section.appendChild(order_id_header);
-                order_id_section.appendChild(order_id_number);
-                order_id_section.appendChild(instruction);
-                
+                    order_id_section.appendChild(order_id_header);
+                    order_id_section.appendChild(order_id_number);
+                    order_id_section.appendChild(instruction);
+                    
 
-                var con_btn_section = createElement({
-                    tag_name: 'div',
-                    attributes: {
-                        class: 'col-12'
-                    }
-                });
-                
-                var con_btn_col = createElement({
-                    tag_name: 'div',
-                    attributes: {
-                        class: 'd-flex justify-content-center'
-                    }
-                });
+                    var con_btn_section = createElement({
+                        tag_name: 'div',
+                        attributes: {
+                            class: 'col-12'
+                        }
+                    });
+                    
+                    var con_btn_col = createElement({
+                        tag_name: 'div',
+                        attributes: {
+                            class: 'd-flex justify-content-center'
+                        }
+                    });
 
-                var con_btn = createElement({
-                    tag_name: 'a',
-                    attributes: {
-                        class: 'exclusive btn-ex-red',
-                        style: 'margin-top: 5%; text-align: center;',
-                        href: '/'
-                    }
-                });
+                    var con_btn = createElement({
+                        tag_name: 'a',
+                        attributes: {
+                            class: 'exclusive btn-ex-red',
+                            style: 'margin-top: 5%; text-align: center;',
+                            href: '/'
+                        }
+                    });
 
-                var con_btn_text = createElement({
-                    tag_name: 'span',
-                    inner_text: 'CONTINUE SHOPPING'
-                })
+                    var con_btn_text = createElement({
+                        tag_name: 'span',
+                        inner_text: 'CONTINUE SHOPPING'
+                    })
 
-                con_btn.appendChild(con_btn_text);
-                con_btn_col.appendChild(con_btn);
-                con_btn_section.appendChild(con_btn_col);
-                order_id_section.appendChild(con_btn_section);
+                    con_btn.appendChild(con_btn_text);
+                    con_btn_col.appendChild(con_btn);
+                    con_btn_section.appendChild(con_btn_col);
+                    order_id_section.appendChild(con_btn_section);
 
-                checkout_form.appendChild(order_id_section);
+                    checkout_form.appendChild(order_id_section);
+                } else {
+                    throwError();
+                }
             },
             error: function (jqXhr, textStatus, errorMessage) {
-                var checkout_form = document.getElementById("checkout_form");
-                checkout_form.innerHTML = "";
-
-                var order_error_section = createElement({
-                    tag_name: 'div',
-                    attributes: {
-                        class: 'col-12',
-                        style: 'text-align: center;'
-                    }
-                });
-
-                var order_error_message = createElement({
-                    tag_name: 'h4',
-                    attributes: {
-                        style: 'color: #e25050;'
-                    },
-                    inner_text: 'Something went wrong while processing your oder!'
-                });
-
-                order_error_section.appendChild(order_error_message);
-                
-                var con_btn_section = createElement({
-                    tag_name: 'div',
-                    attributes: {
-                        class: 'col-12'
-                    }
-                });
-                
-                var con_btn_col = createElement({
-                    tag_name: 'div',
-                    attributes: {
-                        class: 'd-flex justify-content-center'
-                    }
-                });
-
-                var con_btn = createElement({
-                    tag_name: 'a',
-                    attributes: {
-                        class: 'exclusive btn-ex-red',
-                        style: 'margin-top: 5%; text-align: center;',
-                        href: '/checkout'
-                    }
-                });
-
-                var con_btn_text = createElement({
-                    tag_name: 'span',
-                    inner_text: 'TRY AGAIN',
-                })
-
-                con_btn.appendChild(con_btn_text);
-                con_btn_col.appendChild(con_btn);
-                con_btn_section.appendChild(con_btn_col);
-                order_error_section.appendChild(con_btn_section);
-
-                checkout_form.appendChild(order_error_section);
+                throwError();
             }
         });
     }
+}
+
+function throwError() {
+    var checkout_form = document.getElementById("checkout_form");
+    checkout_form.innerHTML = "";
+
+    var order_error_section = createElement({
+        tag_name: 'div',
+        attributes: {
+            class: 'col-12',
+            style: 'text-align: center;'
+        }
+    });
+
+    var order_error_message = createElement({
+        tag_name: 'h4',
+        attributes: {
+            style: 'color: #e25050;'
+        },
+        inner_text: 'Something went wrong while processing your oder!'
+    });
+
+    order_error_section.appendChild(order_error_message);
+    
+    var con_btn_section = createElement({
+        tag_name: 'div',
+        attributes: {
+            class: 'col-12'
+        }
+    });
+    
+    var con_btn_col = createElement({
+        tag_name: 'div',
+        attributes: {
+            class: 'd-flex justify-content-center'
+        }
+    });
+
+    var con_btn = createElement({
+        tag_name: 'a',
+        attributes: {
+            class: 'exclusive btn-ex-red',
+            style: 'margin-top: 5%; text-align: center;',
+            href: '/checkout'
+        }
+    });
+
+    var con_btn_text = createElement({
+        tag_name: 'span',
+        inner_text: 'TRY AGAIN',
+    })
+
+    con_btn.appendChild(con_btn_text);
+    con_btn_col.appendChild(con_btn);
+    con_btn_section.appendChild(con_btn_col);
+    order_error_section.appendChild(con_btn_section);
+
+    checkout_form.appendChild(order_error_section);
+}
+
+function changeDeliveryCharge(id, amount) {
+    var delivery_charge_amount = document.getElementById('delivery-charge-amount');
+    var delivery_charge_id = document.getElementById('delivery-charge-id');
+    delivery_charge_id.value = id;
+    delivery_charge_amount.value = amount;
+    updateCartTableTotalPrice();
 }
 
 function getPaymentMethod() {
