@@ -59,6 +59,7 @@ app.get('/', async (req, res) => {
 app.get('/product/:id', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
   const productData = await _productService.getProduct(req.params.id);
+  const similarProducts = await _productService.getSimilarProducts(req.params.id);
 
   env.addGlobal('layout', layout);
 
@@ -66,6 +67,7 @@ app.get('/product/:id', async (req, res) => {
       page_data: {
         title: productData?.name,
         product_data: productData,
+        similar_products: similarProducts,
         product_id: req.params.id,
         default_gallery_image: productData?.images[0],
         show_cart: true

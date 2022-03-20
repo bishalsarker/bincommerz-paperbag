@@ -84,4 +84,18 @@ export class ProductService {
 
         return Promise.resolve(resolved_response);
     }
+
+    public async getSimilarProducts(productId: String): Promise<Product[] | null> {
+        let url = `${api_endpoints.get_similar_products}${productId}`;
+            
+        const response = await this._httpClient.get<Product[]>(url);
+        let resolved_response: any[] = [];
+        if (response) {
+            resolved_response = response.map((p) => {
+                return this._resolvers.resolveImageUrl(p, ["imageUrl"]);
+            });
+        }
+
+        return Promise.resolve(resolved_response);
+    }
 } 
