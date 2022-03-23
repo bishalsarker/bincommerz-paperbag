@@ -216,6 +216,29 @@
             </div><!-- End .intro-slider-container -->
             {% endif %}
 
+            {% if row.type == 'banner' %}
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="banner banner-overlay banner-overlay-light">
+                            {% for slide in row.data.slides %}
+                            {% if slide.buttonUrl == '' %}
+                            <a href="#">
+                                <img src="{{slide.imageURL}}" alt="Banner">
+                            </a>
+                            {% else %}
+                            <a href="{{ slide.buttonUrl }}">
+                                <img src="{{slide.imageURL}}" alt="Banner">
+                            </a>
+                            {% endif %}
+                            {% endfor%}
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-md-4 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+            <div class="mb-6"></div><!-- End .mb-4 -->
+            {% endif %}
+
             {% if row.type == 'category_section' %}
             <div class="container">
                 <h2 class="title text-center mb-4">{{ row.title }}</h2>

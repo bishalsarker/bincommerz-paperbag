@@ -107,6 +107,29 @@
     <div class="mb-6"></div><!-- End .mb-4 -->
     {% endif %}
 
+    {% if row.type == 'banner' %}
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for slide in row.data.slides %}
+            <div class="col-sm 12 col-md-{{12 / row.data.slides_count }}">
+                <div class="banner banner-overlay banner-overlay-light">              
+                    {% if slide.buttonUrl == '' %}
+                    <a href="#">
+                        <img src="{{slide.imageURL}}" alt="Banner">
+                    </a>
+                    {% else %}
+                    <a href="{{ slide.buttonUrl }}">
+                        <img src="{{slide.imageURL}}" alt="Banner">
+                    </a>
+                    {% endif %}
+                </div><!-- End .banner -->
+            </div><!-- End .col-md-4 -->
+            {% endfor%}
+        </div><!-- End .row -->
+    </div><!-- End .container -->
+    <div class="mb-6"></div><!-- End .mb-4 -->
+    {% endif %}
+
     {% if row.type == 'product_section' %}
     <div class="container for-you">
         <div class="heading heading-flex mb-3">

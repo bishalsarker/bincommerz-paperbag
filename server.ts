@@ -45,6 +45,8 @@ app.get('/', async (req, res) => {
     const layout = await _layoutService.resolveLayout();
     const template = await _templateService.resolveTemplate();
 
+    console.log(template);
+
     env.addGlobal('layout', layout);
 
     res.render('index.html', {

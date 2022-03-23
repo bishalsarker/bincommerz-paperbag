@@ -30,8 +30,15 @@ export class TemplateService {
             let data, section_type, title;
 
             if (row['type'] === "slider") {
-                section_type = "slider"
+                section_type = "slider";
                 data = await this.getSlider(row['resolve'])
+            }
+
+            if (row['type'] === "banner") {
+                section_type = "banner";
+                const resolvedBanner = await this.getSlider(row['resolve']);
+                data = resolvedBanner;
+                data["slides_count"] = resolvedBanner.slides.length
             }
 
             if (row['type'] == "section") {
@@ -79,7 +86,7 @@ export class TemplateService {
         
         slider["slides"] = resolved_slides
 
-        return slider
+        return slider;
             
     }
 
