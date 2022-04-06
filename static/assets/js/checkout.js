@@ -73,7 +73,7 @@ function applyCoupon() {
         apply_coupon_btn.disabled = true;
 
         // $.ajax('https://localhost:5001/shop/coupon/apply/' + coupon_code_value + '/' + total_order_price, {
-        $.ajax('https://api-core.bincommerz.com/shop/order/addnew'+ coupon_code_value + '/' + total_order_price, {
+        $.ajax('https://api-core.bincommerz.com/shop/coupon/apply/'+ coupon_code_value + '/' + total_order_price, {
             type: 'GET',
             contentType: 'application/json',
             headers: {
