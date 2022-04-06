@@ -109,9 +109,32 @@
 									</div>
 									<div class="w-100" style="border-bottom: 0.1rem solid #ebebeb; margin: 10px;"></div>
 								</div>
+								<div id="discount-row" class="row summary-total" style="margin-top: 10px; display: none;">
+									<div class="col-6" style="color: #333; font-weight: 400; font-size: 1.6rem;">Discount:</div>
+									<div id="discount-amount" class="col-6" style="text-align: right; color: red;">N/A</div>
+								</div>
 								<div class="row summary-total" style="margin-top: 10px;">
 									<div class="col-6" style="color: #333; font-weight: 400; font-size: 1.6rem;">Total:</div>
 									<div id="total-amount" class="col-6" style="text-align: right;">N/A</div>
+								</div>
+								<div class="row" style="margin-top: 20px;">
+									<div class="col-6" style="color: #333; font-weight: 400; font-size: 1.6rem;">Voucher:</div>
+								</div>
+								<div class="row">
+									<div class="col-12" style="margin-top: 10px; margin-bottom: 10px;">
+										<input
+											style="margin-top: 5px; margin-bottom: 5px;"
+											class="form-control"
+											placeholder="Enter a voucher code here..."
+											name="voucher_code"
+											required
+										/>
+										<small style="color: red;" id="voucher_errmsg"></small>
+										<button id="apply_coupon_btn" style="margin-top: 10px;" onclick="applyCoupon()" class="btn btn-outline-primary btn-block">
+											<span>Apply</span>
+										</button>
+									</div>
+									<div class="w-100" style="border-bottom: 0.1rem solid #ebebeb; margin: 10px;"></div>
 								</div>
 
 								<div class="accordion-summary" style="margin-top: 20px;">
@@ -134,7 +157,7 @@
 									</div>
 								</div>
 
-								<button id="place_order_btn" type="submit" onclick="placeOrder()" class="btn btn-outline-primary-2 btn-order btn-block">
+								<button id="place_order_btn" onclick="placeOrder()" class="btn btn-outline-primary-2 btn-order btn-block">
 									<span class="btn-text">Place Order</span>
 									<span class="btn-hover-text">Proceed to Checkout</span>
 								</button>

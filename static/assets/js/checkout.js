@@ -2,14 +2,14 @@ var shipping_charge = 150.00;
 
 var cart_items = JSON.parse(localStorage.getItem('cart_items'));
 
-	if (cart_items.length === 0) {
-		var checkout_container = document.getElementById('checkout_container');
-		checkout_container.style.display = 'none';
+if (cart_items.length === 0) {
+    var checkout_container = document.getElementById('checkout_container');
+    checkout_container.style.display = 'none';
 
-		window.location.href = '/';
-	}
+    window.location.href = '/';
+}
 
-	setSavedShippingValues();
+setSavedShippingValues();
 
 function setSavedShippingValues() {
     var shipping_details = localStorage.getItem("shipping_details");
@@ -51,24 +51,82 @@ function renderCartItemsTable() {
     cart_item_table_body.innerHTML = order_details_table_content;
 }
 
+function applyCoupon() {
+    var coupon_input = document.getElementsByName('voucher_code')[0];
+    var coupon_error = document.getElementById('voucher_errmsg');
+    var coupon_code_value = coupon_input.value;
+
+    coupon_input.style.borderColor = "#ced4da";
+    coupon_error.innerText = "";
+
+    let hasValidationErrors = false;
+
+    if (!coupon_code_value || coupon_code_value.trim() === '') {
+        coupon_error.innerText = "Invalid coupon code value";
+        coupon_input.style.borderColor = "red";
+        hasValidationErrors = true;
+    }
+
+    if (!hasValidationErrors) {
+        var apply_coupon_btn = document.getElementById("apply_coupon_btn");
+        apply_coupon_btn.innerHTML ="<span>Applying Coupon...</span>";
+        apply_coupon_btn.disabled = true;
+
+        $.ajax('https://localhost:5001/shop/coupon/apply/' + coupon_code_value + '/' + total_order_price, {
+        //$.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
+            type: 'GET',
+            contentType: 'application/json',
+            headers: {
+                shop_id: "c186a01b40e849d9987d03753b444cfd",
+            },
+            success: function (response, status, xhr) {
+                if (response.isSuccess) {
+                    var discount_amount = document.getElementById('discount-amount');
+                    var discount_row = document.getElementById('discount-row');
+                    discount_amount.innerText = 'Tk -' + response.data.discountAmount;
+                    discount_row.style.display = 'flex';
+
+                    var total_amount = document.getElementById('total-amount');
+                    total_amount.innerText = 'Tk ' +  (response.data.newAmount);
+                } else {
+                    coupon_error.innerText = "This coupon is not applicable";
+                    coupon_input.style.borderColor = "red";
+                }
+
+                apply_coupon_btn.innerHTML ="<span>Apply</span>";
+                apply_coupon_btn.disabled = false;
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                coupon_error.innerText = "This coupon is not applicable";
+                coupon_input.style.borderColor = "red";
+                apply_coupon_btn.innerHTML ="<span>Apply</span>";
+                apply_coupon_btn.disabled = false;
+            }
+        });
+    }
+}
+
 function placeOrder() {
     var full_name = document.getElementsByName("full_name")[0];
     var phone_number = document.getElementsByName("phone_number")[0];
     var email = document.getElementsByName("email")[0];
     var address = document.getElementsByName("address")[0];
     var trx_id = document.getElementsByName("transaction_id")[0];
+    var voucher_code = document.getElementsByName("voucher_code")[0];
 
     document.getElementById("full_name_errmsg").innerText = "";
     document.getElementById("phone_number_errmsg").innerText = "";
     // document.getElementById("email_errmsg").innerText = "";
     document.getElementById("address_errmsg").innerText = "";
     document.getElementById("trxid_errmsg").innerText = "";
+    document.getElementById("voucher_errmsg").innerText = "";
 
     full_name.style.borderColor = "#ced4da";
     phone_number.style.borderColor = "#ced4da";
     email.style.borderColor = "#ced4da";
     address.style.borderColor = "#ced4da";
     trx_id.style.borderColor = "#ced4da";
+    voucher_code.style.borderColor = "#ced4da";
 
     var hasValidationErrors = false;
 
@@ -131,6 +189,7 @@ function placeOrder() {
             paymentMethod:  getPaymentMethod(),
             paymentNotes: "bKash TrxId: " + getTrxId(),
             deliveryChargeId: document.getElementById('delivery-charge-id').value,
+            couponCode: document.getElementsByName("voucher_code")[0].value,
             items: JSON.parse(localStorage.getItem("cart_items")).map((item) => {
               return {
                 productId: item.productId,
@@ -143,7 +202,8 @@ function placeOrder() {
         place_order_btn.innerHTML ="<span>PLACING ORDER...</span>";
         place_order_btn.disabled = true;
 
-        $.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
+        $.ajax('https://localhost:5001/shop/order/addnew', {
+        //$.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderPayload),
@@ -322,6 +382,10 @@ function throwError() {
 function changeDeliveryCharge(id, amount) {
     var delivery_charge_amount = document.getElementById('delivery-charge-amount');
     var delivery_charge_id = document.getElementById('delivery-charge-id');
+    var discount_row = document.getElementById('discount-row');
+    var voucher_code = document.getElementsByName('voucher_code')[0];
+    voucher_code.value = "";
+    discount_row.style.display = 'none';
     delivery_charge_id.value = id;
     delivery_charge_amount.value = amount;
     updateCartTableTotalPrice();

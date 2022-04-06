@@ -1,5 +1,5 @@
 var cart_storage = localStorage.getItem('cart_items');
-// var shipping_charge = 110;
+var total_order_price = 0;
 
 if (!cart_storage) {
 	localStorage.setItem('cart_items', '[]');
@@ -346,7 +346,8 @@ function updateCartTableTotalPrice() {
 		delivery_charge = 0;
 	}
 	var total_amount = document.getElementById('total-amount');
-	total_amount.innerText = 'Tk ' + (total_price + delivery_charge);
+	total_order_price = total_price + delivery_charge;
+	total_amount.innerText = 'Tk ' + total_order_price;
 }
 
 function updateProductQuantity(productId, quantity) {
