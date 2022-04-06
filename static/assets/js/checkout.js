@@ -72,8 +72,8 @@ function applyCoupon() {
         apply_coupon_btn.innerHTML ="<span>Applying Coupon...</span>";
         apply_coupon_btn.disabled = true;
 
-        $.ajax('https://localhost:5001/shop/coupon/apply/' + coupon_code_value + '/' + total_order_price, {
-        //$.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
+        // $.ajax('https://localhost:5001/shop/coupon/apply/' + coupon_code_value + '/' + total_order_price, {
+        $.ajax('https://api-core.bincommerz.com/shop/order/addnew'+ coupon_code_value + '/' + total_order_price, {
             type: 'GET',
             contentType: 'application/json',
             headers: {
@@ -202,8 +202,8 @@ function placeOrder() {
         place_order_btn.innerHTML ="<span>PLACING ORDER...</span>";
         place_order_btn.disabled = true;
 
-        $.ajax('https://localhost:5001/shop/order/addnew', {
-        //$.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
+        //$.ajax('https://localhost:5001/shop/order/addnew', {
+        $.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderPayload),
