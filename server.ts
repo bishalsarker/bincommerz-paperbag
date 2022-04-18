@@ -58,6 +58,10 @@ app.get('/', async (req, res) => {
     });
 });
 
+app.get('/hostname', async (req, res) => {
+  res.send(req.headers.host);
+});
+
 app.get('/product/:id', async (req, res) => {
   const layout = await _layoutService.resolveLayout();
   const productData = await _productService.getProduct(req.params.id);
