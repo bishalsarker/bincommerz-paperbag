@@ -17,8 +17,8 @@ export class TemplateService {
         this._categoryService = categoryService;
     }
 
-    public async resolveTemplate(): Promise<TemplateItem[]> {
-        const template = await this.getTemplate();
+    public async resolveTemplate(shop_id: string): Promise<TemplateItem[]> {
+        const template = await this.getTemplate(shop_id);
         const parsed_template = JSON.parse(template.content);
         const sorted_rows = _.orderBy(parsed_template, ['row_number'], ['asc']);
 
@@ -31,12 +31,12 @@ export class TemplateService {
 
             if (row['type'] === "slider") {
                 section_type = "slider";
-                data = await this.getSlider(row['resolve'])
+                data = await this.getSlider(row['resolve'], shop_id)
             }
 
             if (row['type'] === "banner") {
                 section_type = "banner";
-                const resolvedBanner = await this.getSlider(row['resolve']);
+                const resolvedBanner = await this.getSlider(row['resolve'], shop_id);
                 data = resolvedBanner;
                 data["slides_count"] = resolvedBanner.slides.length
             }
@@ -46,14 +46,14 @@ export class TemplateService {
 
                 if (row['resolve']['type'] == 'category') {
                     section_type = 'category_section'
-                    data = await this._categoryService.getCategories()
+                    data = await this._categoryService.getCategories(shop_id)
                 }
                 
                 if (row['resolve']['type'] == 'product') {
                     section_type = 'product_section'
                     data = {
                         'slug': row['resolve']['value'],
-                        "products": (await this._productService.getProducts(row['resolve']['value'], 'newest', undefined, "4", "1"))?.products
+                        "products": (await this._productService.getProducts(shop_id, row['resolve']['value'], 'newest', undefined, "4", "1"))?.products
                     }
                 }
             }
@@ -72,8 +72,8 @@ export class TemplateService {
         return Promise.resolve(resolved_template);
     }
 
-    private async getSlider(slider_id: String): Promise<any> {
-        const slider = await this._httpClient.get<any>(api_endpoints.get_slider + slider_id);
+    private async getSlider(slider_id: String, shop_id: string): Promise<any> {
+        const slider = await this._httpClient.get<any>(api_endpoints.get_slider + slider_id, shop_id);
             
         const resolved_slides = slider.slides.map((slide: any) => {
             slide['default'] = false;     
@@ -90,8 +90,7 @@ export class TemplateService {
             
     }
 
-    private async getTemplate(): Promise<any> {
-        return await this._httpClient.get<any>(api_endpoints.get_template);
+    private async getTemplate(shop_id: string): Promise<any> {
+        return await this._httpClient.get<any>(api_endpoints.get_template, shop_id);
     }
-
 }

@@ -8,8 +8,8 @@ export class CategoryService {
     private _httpClient = new HttpClient();
     private _resolvers = new Resolvers();
     
-    public async getCategories(): Promise<Category[] | null> {
-        const categories = await this._httpClient.get<Category[]>(api_endpoints.get_categories);
+    public async getCategories(shop_id: string): Promise<Category[] | null> {
+        const categories = await this._httpClient.get<Category[]>(api_endpoints.get_categories, shop_id);
         let resolved_categories: Category[] = [];
 
         if (categories) {
@@ -24,7 +24,7 @@ export class CategoryService {
         return Promise.resolve(_.orderBy(resolved_categories, ['order'], ['asc']));
     }
 
-    public async getCategory(slug: String): Promise<Category | null> {
-        return await this._httpClient.get<Category>(`${api_endpoints.get_category}/${slug}`);
+    public async getCategory(slug: String, shop_id: string): Promise<Category | null> {
+        return await this._httpClient.get<Category>(`${api_endpoints.get_category}/${slug}`, shop_id);
     }
 }
