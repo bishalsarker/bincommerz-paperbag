@@ -9,6 +9,7 @@ import { PageService } from './services/page.service';
 import { ProductService } from './services/product.service';
 import { ShopService } from './services/shop.service';
 import { TemplateService } from './services/template.service';
+import * as _ from "lodash";
 
 var app = express();
 const PORT = process.env.PORT || 8000;
@@ -41,7 +42,21 @@ const _templateService = new TemplateService(_productService, _categoryService);
 const _layoutService = new LayoutService(_categoryService, _pageService, _shopService);
 const _orderService = new OrderService();
 
-app.get('/', async (req, res) => {
+const shopMap = [
+  {
+    userName: "Bdgadgethouse",
+    shopId: "c186a01b40e849d9987d03753b444cfd"
+  }
+]
+
+app.use((req: any, res, next) => {
+  const isPreview = req.headers.host === "preview.bincommerz.com" || req.headers.host === "localhost:8000" ? true : false;
+  req['shopId'] = _.find(shopMap, (o) => { return o.userName === req.query.shop })?.shopId;
+  next();
+});
+
+app.get('/', async (req: any, res) => {
+    console.log(req['shopId']);
     const layout = await _layoutService.resolveLayout();
     const template = await _templateService.resolveTemplate();
 
