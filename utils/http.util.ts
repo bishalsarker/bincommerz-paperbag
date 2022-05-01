@@ -5,18 +5,22 @@ export class HttpClient {
     private client = axios;
 
     constructor () {
-        this.client.defaults.headers.common = {
-            "shop_id": "c186a01b40e849d9987d03753b444cfd"
-        }
+        // this.client.defaults.headers.common = {
+        //     "shop_id": "c186a01b40e849d9987d03753b444cfd"
+        // }
     }
 
     public getClient(): AxiosStatic {
         return this.client;
     }
 
-    public async get<T>(url: string): Promise<T | null> {
+    public async get<T>(url: string, shop_id: string): Promise<T | null> {
         try {
-            const axiosResponse = await this.client.get(url);
+            const axiosResponse = await this.client.get(url, {
+                headers: {
+                    "shop_id": shop_id
+                }
+            });
             
             if (axiosResponse.data) {
                 const response = axiosResponse.data as ApiResponse;

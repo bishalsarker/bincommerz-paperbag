@@ -17,9 +17,9 @@ export class LayoutService {
         this._shopService = shopService;
     }
 
-    public async resolveLayout(): Promise<any> {
-        const categories = await this._categroryService.getCategories();
-        const pages = await this._pageService.getPages();
+    public async resolveLayout(shop_id: string): Promise<any> {
+        const categories = await this._categroryService.getCategories(shop_id);
+        const pages = await this._pageService.getPages(shop_id);
 
         const nav_items = {
             shown: categories,
@@ -39,7 +39,7 @@ export class LayoutService {
         return Promise.resolve({
             nav_items: nav_items, 
             footer_items: footer_items, 
-            shop_info: await this._shopService.getShopInfo()
+            shop_info: await this._shopService.getShopInfo(shop_id)
         });
     }
 }

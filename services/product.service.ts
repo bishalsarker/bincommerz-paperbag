@@ -9,7 +9,7 @@ export class ProductService {
     private _resolvers = new Resolvers();
 
     public async getProducts(
-        cat_slug: String, sort_by: String, keyword?: String,
+        shop_id: string, cat_slug: String, sort_by: String, keyword?: String,
         page_size?: String, page_number?: String): Promise<PaginationResponse | null> {
             
         let url = `${api_endpoints.get_all_products}`;
@@ -32,7 +32,7 @@ export class ProductService {
 
         url = url + parameters.join('&');
             
-        const response = await this._httpClient.get<PaginationResponse>(url);
+        const response = await this._httpClient.get<PaginationResponse>(url, shop_id);
         let resolved_response: any[] = [];
         if (response) {
             resolved_response = response.products.map((p) => {
@@ -50,8 +50,8 @@ export class ProductService {
         return Promise.resolve(response);
     }
 
-    public async getProduct(product_id: String): Promise<Product | null> {
-        let product = await this._httpClient.get<Product>(api_endpoints.get_product_details + product_id);
+    public async getProduct(product_id: String, shop_id: string): Promise<Product | null> {
+        let product = await this._httpClient.get<Product>(api_endpoints.get_product_details + product_id, shop_id);
 
         if (product) {               
             if (product.discount > 0) {
@@ -71,10 +71,10 @@ export class ProductService {
         return Promise.resolve(null);
     }
 
-    public async getProductsByKeyword(query: String): Promise<Product[] | null> {
+    public async getProductsByKeyword(query: String, shop_id: string): Promise<Product[] | null> {
         let url = `${api_endpoints.search_products}${query}`;
             
-        const response = await this._httpClient.get<Product[]>(url);
+        const response = await this._httpClient.get<Product[]>(url, shop_id);
         let resolved_response: any[] = [];
         if (response) {
             resolved_response = response.map((p) => {
@@ -85,10 +85,10 @@ export class ProductService {
         return Promise.resolve(resolved_response);
     }
 
-    public async getSimilarProducts(productId: String): Promise<Product[] | null> {
+    public async getSimilarProducts(productId: String, shop_id: string): Promise<Product[] | null> {
         let url = `${api_endpoints.get_similar_products}${productId}`;
             
-        const response = await this._httpClient.get<Product[]>(url);
+        const response = await this._httpClient.get<Product[]>(url, shop_id);
         let resolved_response: any[] = [];
         if (response) {
             resolved_response = response.map((p) => {

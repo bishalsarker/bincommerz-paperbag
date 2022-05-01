@@ -1,10 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.api_endpoints = void 0;
 const api_host_dev = "https://localhost:5001/shop/";
 const api_host_prod = "https://api-core.bincommerz.com/shop/";
-
 const api_host = process.env.NODE_ENV === "production" ? api_host_prod : api_host_dev;
 // const api_host = api_host_prod;
-
-export const api_endpoints: any = {
+exports.api_endpoints = {
     get_categories: api_host + "categories",
     get_category: api_host + "category",
     get_all_products: api_host + "products/get?",
@@ -21,4 +22,4 @@ export const api_endpoints: any = {
     delivery_charges: api_host + "orders/delivery-charges",
     static_files_endpoint: "https://bincommerzstaticstorage.blob.core.windows.net",
     get_app_urls: api_host + "config/app_urls"
-}
+};
