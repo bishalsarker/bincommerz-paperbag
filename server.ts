@@ -21,7 +21,7 @@ app.use(
   })
 )
 
-app.use(express.json())
+app.use(express.json());
 
 var env = nunjucks.configure('views', {
   autoescape: true,
@@ -45,7 +45,9 @@ const _orderService = new OrderService();
 const _urlMapperService = new UrlMapperService();
 
 let _urlMap: { name: string, value: string }[] = [];
-_urlMapperService.getAppUrls().then((m) => _urlMap = m);
+let shopUrlPromise = _urlMapperService.getAppUrls();
+
+shopUrlPromise.then((m) => _urlMap = m);
 
 app.use((req: any, res, next) => {
   let shop_id: string = "c186a01b40e849d9987d03753b444cfd";
@@ -64,111 +66,76 @@ app.use((req: any, res, next) => {
 });
 
 app.get('/', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const template = await _templateService.resolveTemplate(shop_id);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const template = await _templateService.resolveTemplate(shop_id);
 
-  env.addGlobal('layout', layout);
+    env.addGlobal('layout', layout);
 
-  res.render('index.html', {
-      page_data: { 
-          title: null,
-          show_cart: true,
-          template_data: template
-      }
-  });
+    res.render('index.html', {
+        page_data: { 
+            title: null,
+            show_cart: true,
+            template_data: template
+        }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get('/product/:id', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const productData = await _productService.getProduct(req.params.id, shop_id);
-  const similarProducts = await _productService.getSimilarProducts(req.params.id, shop_id);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const productData = await _productService.getProduct(req.params.id, shop_id);
+    const similarProducts = await _productService.getSimilarProducts(req.params.id, shop_id);
 
-  env.addGlobal('layout', layout);
+    env.addGlobal('layout', layout);
 
-  res.render('product-details.html', {
-      page_data: {
-        title: productData?.name,
-        product_data: productData,
-        similar_products: similarProducts,
-        product_id: req.params.id,
-        default_gallery_image: productData?.images[0],
-        show_cart: true
-      }
-  });
+    res.render('product-details.html', {
+        page_data: {
+          title: productData?.name,
+          product_data: productData,
+          similar_products: similarProducts,
+          product_id: req.params.id,
+          default_gallery_image: productData?.images[0],
+          show_cart: true
+        }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+  
 });
 
 app.get('/products/catalog/:slug', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const slug = req.params.slug as String;
-  const keyword = req.query.keyword as String;
-  const page_number = req.query.page_number as String ? req.query.page_number as String : "1";
-  const categoryData = await _categoryService.getCategory(slug, shop_id);
-  const productlist = await _productService.getProducts(
-    shop_id, slug, 'newest', keyword ? keyword : undefined, "20", page_number);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const slug = req.params.slug as String;
+    const keyword = req.query.keyword as String;
+    const page_number = req.query.page_number as String ? req.query.page_number as String : "1";
+    const categoryData = await _categoryService.getCategory(slug, shop_id);
+    const productlist = await _productService.getProducts(
+      shop_id, slug, 'newest', keyword ? keyword : undefined, "20", page_number);
 
-  env.addGlobal('layout', layout);
+    env.addGlobal('layout', layout);
 
-  res.render('products.html', {
-      page_data: {
-        title: categoryData?.name,
-        cat_slug: categoryData?.slug,
-        cat_name: categoryData?.name,
-        subcategories: categoryData?.subcategories,
-        product_list: productlist?.products,
-        query_string: "slug=" + slug,
-        selected_page_number: page_number,
-        total_pages: () => {
-          const page_number_list = [];
-          let i = 0;
-          const total_pages = productlist?.totalPages ? productlist?.totalPages : 0;
-
-          while (i < total_pages) {
-            page_number_list.push(i + 1);
-            i++;
-          }
-
-          return page_number_list;
-        },
-
-        show_cart: true
-      }
-  });
-});
-
-app.get('/products/search', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const cat = req.query.cat as String;
-  const keyword = req.query.keyword as String;
-  const page_number = req.query.page_number as String ? req.query.page_number as String : "1";
-  const categories = await _categoryService.getCategories(shop_id);
-  let subcategories: Category[] = [];
-
-  if (cat) {
-    const subcat = (await _categoryService.getCategory(cat, shop_id))?.subcategories;
-    if (subcat) {
-      subcategories = subcat;
-    }
-  }
-
-  const productlist = await _productService.getProducts(
-    shop_id, cat, 'newest', keyword ? keyword : undefined, "20", page_number);
-
-  layout['query_string'] = keyword;
-
-  env.addGlobal('layout', layout);
-
-  if (keyword && keyword !== '') {
-    res.render('search_results.html', {
+    res.render('products.html', {
         page_data: {
-          title: 'Catalog Search',
-          categories: categories,
-          subcategories: subcategories,
+          title: categoryData?.name,
+          cat_slug: categoryData?.slug,
+          cat_name: categoryData?.name,
+          subcategories: categoryData?.subcategories,
           product_list: productlist?.products,
-          query_string: keyword,
+          query_string: "slug=" + slug,
           selected_page_number: page_number,
           total_pages: () => {
             const page_number_list = [];
@@ -186,142 +153,255 @@ app.get('/products/search', async (req: any, res) => {
           show_cart: true
         }
     });
-  } else {
-    res.render('search_results.html', {
-      page_data: {
-        title: 'Catalog Search',
-        categories: [],
-        subcategories: [],
-        product_list: [],
-        query_string: '',
-        selected_page_number: 1,
-        total_pages: () => {
-          return 1;
-        },
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
-        show_cart: true
+app.get('/products/search', async (req: any, res) => {
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const cat = req.query.cat as String;
+    const keyword = req.query.keyword as String;
+    const page_number = req.query.page_number as String ? req.query.page_number as String : "1";
+    const categories = await _categoryService.getCategories(shop_id);
+    let subcategories: Category[] = [];
+
+    if (cat) {
+      const subcat = (await _categoryService.getCategory(cat, shop_id))?.subcategories;
+      if (subcat) {
+        subcategories = subcat;
       }
-  });
+    }
+
+    const productlist = await _productService.getProducts(
+      shop_id, cat, 'newest', keyword ? keyword : undefined, "20", page_number);
+
+    layout['query_string'] = keyword;
+
+    env.addGlobal('layout', layout);
+
+    if (keyword && keyword !== '') {
+      res.render('search_results.html', {
+          page_data: {
+            title: 'Catalog Search',
+            categories: categories,
+            subcategories: subcategories,
+            product_list: productlist?.products,
+            query_string: keyword,
+            selected_page_number: page_number,
+            total_pages: () => {
+              const page_number_list = [];
+              let i = 0;
+              const total_pages = productlist?.totalPages ? productlist?.totalPages : 0;
+
+              while (i < total_pages) {
+                page_number_list.push(i + 1);
+                i++;
+              }
+
+              return page_number_list;
+            },
+
+            show_cart: true
+          }
+      });
+    } else {
+      res.render('search_results.html', {
+        page_data: {
+          title: 'Catalog Search',
+          categories: [],
+          subcategories: [],
+          product_list: [],
+          query_string: '',
+          selected_page_number: 1,
+          total_pages: () => {
+            return 1;
+          },
+
+          show_cart: true
+        }
+    });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 app.get('/cart', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const pages = await _pageService.getPages(shop_id);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const pages = await _pageService.getPages(shop_id);
 
-  env.addGlobal('layout', layout);
+    env.addGlobal('layout', layout);
 
-  res.render('cart.html', {
-      page_data: {
-        title: 'My Cart',
-        faq_list: pages?.faq,
-        show_cart: true
-    }
-  });
+    res.render('cart.html', {
+        page_data: {
+          title: 'My Cart',
+          faq_list: pages?.faq,
+          show_cart: true
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get('/checkout', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const pages = await _pageService.getPages(shop_id);
-  const deliveryCharges = await _orderService.getDeliveryCharges(shop_id);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const pages = await _pageService.getPages(shop_id);
+    const deliveryCharges = await _orderService.getDeliveryCharges(shop_id);
 
-  const defaultShipping = {
-    id: "0000000000000000",
-    title: "default-delivery-charge",
-    amount: 0
-  }
-
-  if (deliveryCharges.length === 0) {
-    deliveryCharges.push(defaultShipping);
-  }
-
-  env.addGlobal('layout', layout);
-
-  res.render('checkout.html', {
-      page_data: {
-        title: 'Checkout',
-        faq_list: pages?.faq,
-        show_cart: true,
-        deliveryCharges: deliveryCharges,
-        defaultDeliveryCharge: deliveryCharges.length > 0 ? deliveryCharges[0] : defaultShipping
+    const defaultShipping = {
+      id: "0000000000000000",
+      title: "default-delivery-charge",
+      amount: 0
     }
-  });
+
+    if (deliveryCharges.length === 0) {
+      deliveryCharges.push(defaultShipping);
+    }
+
+    env.addGlobal('layout', layout);
+
+    res.render('checkout.html', {
+        page_data: {
+          title: 'Checkout',
+          faq_list: pages?.faq,
+          show_cart: true,
+          deliveryCharges: deliveryCharges,
+          defaultDeliveryCharge: deliveryCharges.length > 0 ? deliveryCharges[0] : defaultShipping
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get('/orders', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const pages = await _pageService.getPages(shop_id);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const pages = await _pageService.getPages(shop_id);
 
-  env.addGlobal('layout', layout);
+    env.addGlobal('layout', layout);
 
-  res.render('orders.html', {
-      page_data: {
-        title: 'My Orders',
-        faq_list: pages?.faq,
-        show_cart: true
-    }
-  });
+    res.render('orders.html', {
+        page_data: {
+          title: 'My Orders',
+          faq_list: pages?.faq,
+          show_cart: true
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get('/order/tracker', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const order_id = req.query.oid ? req.query.oid as string : null;
-  const trackingData = await _orderService.trackOrder(order_id, shop_id);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const order_id = req.query.oid ? req.query.oid as string : null;
+    const trackingData = await _orderService.trackOrder(order_id, shop_id);
 
-  env.addGlobal('layout', layout);
+    env.addGlobal('layout', layout);
 
-  res.render('tracker.html', {
-      page_data: {
-        title: "Order Tracker",
-        show_tracking_data: order_id ? true : false,
-        tracking_data: trackingData.length > 0 ? trackingData : null ,
-        order_id: req.query.oid,
-        show_cart: true
-    }
-  });
+    res.render('tracker.html', {
+        page_data: {
+          title: "Order Tracker",
+          show_tracking_data: order_id ? true : false,
+          tracking_data: trackingData.length > 0 ? trackingData : null ,
+          order_id: req.query.oid,
+          show_cart: true
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get('/pages/:type/:slug', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const pageData = await _pageService.getPage(req.params.type, req.params.slug, shop_id);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const pageData = await _pageService.getPage(req.params.type, req.params.slug, shop_id);
 
-  env.addGlobal('layout', layout);
+    env.addGlobal('layout', layout);
 
-  res.render('page_viewer.html', {
-      page_data: {
-        title: pageData?.pageTitle,
-        page_data: pageData,
-        show_cart: true
-    }
-  });
+    res.render('page_viewer.html', {
+        page_data: {
+          title: pageData?.pageTitle,
+          page_data: pageData,
+          show_cart: true
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get('/faq', async (req: any, res) => {
-  const shop_id = req['shopId'];
-  const layout = await _layoutService.resolveLayout(shop_id);
-  const pages = await _pageService.getPages(shop_id);
+  try
+  {
+    const shop_id = req['shopId'];
+    const layout = await _layoutService.resolveLayout(shop_id);
+    const pages = await _pageService.getPages(shop_id);
 
-  env.addGlobal('layout', layout);
+    env.addGlobal('layout', layout);
 
-  res.render('faq.html', {
-      page_data: {
-        title: 'Frequently Asked Questions',
-        faq_list: pages?.faq,
-        show_cart: true
-    }
-  });
+    res.render('faq.html', {
+        page_data: {
+          title: 'Frequently Asked Questions',
+          faq_list: pages?.faq,
+          show_cart: true
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.post('/place-order', (req: any, res) => {
-  _orderService.placeOrder(req.body).then((response) => {
-    res.send(response);
-  });
+  try
+  {
+    _orderService.placeOrder(req.body).then((response) => {
+      res.send(response);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 })
+
+app.get('/update-url-cache',(req: any, res) => {
+  try
+  {
+    shopUrlPromise.then((m) => _urlMap = m);
+    res.send({ message: "Url cache updated..." });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`)
