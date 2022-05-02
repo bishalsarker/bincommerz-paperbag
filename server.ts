@@ -49,7 +49,9 @@ let shopUrlPromise = _urlMapperService.getAppUrls();
 
 shopUrlPromise.then((m) => _urlMap = m);
 
-app.use((req: any, res, next) => {
+const shopIdResolverMiddleware = (req: any, res: any, next: any) => {
+  console.log(_urlMap, req.headers.host);
+
   let shop_id: string = "c186a01b40e849d9987d03753b444cfd";
 
   if (req.headers.host !== 'localhost:8000') {
@@ -63,9 +65,9 @@ app.use((req: any, res, next) => {
     req['shopId'] = shop_id;
     next();
   }
-});
+};
 
-app.get('/', async (req: any, res) => {
+app.get('/', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -87,7 +89,7 @@ app.get('/', async (req: any, res) => {
   }
 });
 
-app.get('/product/:id', async (req: any, res) => {
+app.get('/product/:id', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -114,7 +116,7 @@ app.get('/product/:id', async (req: any, res) => {
   
 });
 
-app.get('/products/catalog/:slug', async (req: any, res) => {
+app.get('/products/catalog/:slug', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -159,7 +161,7 @@ app.get('/products/catalog/:slug', async (req: any, res) => {
   }
 });
 
-app.get('/products/search', async (req: any, res) => {
+app.get('/products/search', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -232,7 +234,7 @@ app.get('/products/search', async (req: any, res) => {
   }
 });
 
-app.get('/cart', async (req: any, res) => {
+app.get('/cart', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -254,7 +256,7 @@ app.get('/cart', async (req: any, res) => {
   }
 });
 
-app.get('/checkout', async (req: any, res) => {
+app.get('/checkout', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -289,7 +291,7 @@ app.get('/checkout', async (req: any, res) => {
   }
 });
 
-app.get('/orders', async (req: any, res) => {
+app.get('/orders', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -311,7 +313,7 @@ app.get('/orders', async (req: any, res) => {
   }
 });
 
-app.get('/order/tracker', async (req: any, res) => {
+app.get('/order/tracker', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -336,7 +338,7 @@ app.get('/order/tracker', async (req: any, res) => {
   }
 });
 
-app.get('/pages/:type/:slug', async (req: any, res) => {
+app.get('/pages/:type/:slug', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -358,7 +360,7 @@ app.get('/pages/:type/:slug', async (req: any, res) => {
   }
 });
 
-app.get('/faq', async (req: any, res) => {
+app.get('/faq', shopIdResolverMiddleware, async (req: any, res) => {
   try
   {
     const shop_id = req['shopId'];
@@ -380,7 +382,7 @@ app.get('/faq', async (req: any, res) => {
   }
 });
 
-app.post('/place-order', (req: any, res) => {
+app.post('/place-order', shopIdResolverMiddleware, (req: any, res) => {
   try
   {
     _orderService.placeOrder(req.body).then((response) => {
@@ -392,7 +394,7 @@ app.post('/place-order', (req: any, res) => {
   }
 })
 
-app.get('/update-url-cache',(req: any, res) => {
+app.get('/update-url-cache', (req: any, res) => {
   try
   {
     shopUrlPromise.then((m) => _urlMap = m);

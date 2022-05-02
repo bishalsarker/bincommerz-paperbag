@@ -20,5 +20,6 @@ export const api_endpoints: any = {
     place_order: api_host + "order/addnew",
     delivery_charges: api_host + "orders/delivery-charges",
     static_files_endpoint: "https://bincommerzstaticstorage.blob.core.windows.net",
-    get_app_urls: api_host + "config/app_urls"
+    get_app_urls: api_host + "config/app_urls",
+    get_domain_urls: api_host + "config/domains"
 }
