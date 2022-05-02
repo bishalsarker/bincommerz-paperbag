@@ -45,7 +45,7 @@ const _orderService = new OrderService();
 const _urlMapperService = new UrlMapperService();
 
 let _urlMap: { name: string, value: string }[] = [];
-let shopUrlPromise = _urlMapperService.getAppUrls();
+let shopUrlPromise = _urlMapperService.getDomainUrls();
 
 shopUrlPromise.then((m) => _urlMap = m);
 
