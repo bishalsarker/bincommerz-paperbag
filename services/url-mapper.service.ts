@@ -13,4 +13,14 @@ export class UrlMapperService {
             }
         }) : [];
     }
+
+    public async getDomainUrls(): Promise<{ name: string, value: string}[]> {
+        const app_urls = await this._httpClient.get<any[]>(api_endpoints.get_domain_urls, "");
+        return app_urls ? app_urls.map((val) => {
+            return {
+                name: val.url,
+                value: val.shopId
+            }
+        }) : [];
+    }
 }
