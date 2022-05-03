@@ -4,11 +4,7 @@ import { ApiResponse } from "../interfaces/api-response";
 export class HttpClient {
     private client = axios;
 
-    constructor () {
-        // this.client.defaults.headers.common = {
-        //     "shop_id": "c186a01b40e849d9987d03753b444cfd"
-        // }
-    }
+    constructor () {}
 
     public getClient(): AxiosStatic {
         return this.client;

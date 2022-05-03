@@ -51,7 +51,7 @@ function renderCartItemsTable() {
     cart_item_table_body.innerHTML = order_details_table_content;
 }
 
-function applyCoupon() {
+function applyCoupon(shop_key) {
     var coupon_input = document.getElementsByName('voucher_code')[0];
     var coupon_error = document.getElementById('voucher_errmsg');
     var coupon_code_value = coupon_input.value;
@@ -77,7 +77,7 @@ function applyCoupon() {
             type: 'GET',
             contentType: 'application/json',
             headers: {
-                shop_id: "c186a01b40e849d9987d03753b444cfd",
+                shop_key: shop_key,
             },
             success: function (response, status, xhr) {
                 if (response.isSuccess) {
@@ -106,7 +106,7 @@ function applyCoupon() {
     }
 }
 
-function placeOrder() {
+function placeOrder(shop_key) {
     var full_name = document.getElementsByName("full_name")[0];
     var phone_number = document.getElementsByName("phone_number")[0];
     var email = document.getElementsByName("email")[0];
@@ -202,13 +202,13 @@ function placeOrder() {
         place_order_btn.innerHTML ="<span>PLACING ORDER...</span>";
         place_order_btn.disabled = true;
 
-        //$.ajax('https://localhost:5001/shop/order/addnew', {
+        // $.ajax('https://localhost:5001/shop/order/addnew', {
         $.ajax('https://api-core.bincommerz.com/shop/order/addnew', {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderPayload),
             headers: {
-                shop_id: "c186a01b40e849d9987d03753b444cfd",
+                shop_key: shop_key,
             },
             success: function (response, status, xhr) {
                 if (response.isSuccess) {

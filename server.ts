@@ -45,7 +45,7 @@ const _orderService = new OrderService();
 const _urlMapperService = new UrlMapperService();
 
 let _urlMap: { name: string, value: string }[] = [];
-let shopUrlPromise = _urlMapperService.getAppUrls();
+let shopUrlPromise = _urlMapperService.getDomainUrls();
 
 shopUrlPromise.then((m) => _urlMap = m);
 
@@ -282,7 +282,8 @@ app.get('/checkout', shopIdResolverMiddleware, async (req: any, res) => {
           faq_list: pages?.faq,
           show_cart: true,
           deliveryCharges: deliveryCharges,
-          defaultDeliveryCharge: deliveryCharges.length > 0 ? deliveryCharges[0] : defaultShipping
+          defaultDeliveryCharge: deliveryCharges.length > 0 ? deliveryCharges[0] : defaultShipping,
+          shop_key: Buffer.from(shop_id).toString('base64')
       }
     });
   } catch (error) {
