@@ -19,7 +19,13 @@ export class TemplateService {
 
     public async resolveTemplate(shop_id: string): Promise<TemplateItem[]> {
         const template = await this.getTemplate(shop_id);
-        const parsed_template = JSON.parse(template.content);
+        let content = JSON.stringify([ { row_number: 1 } ]);
+
+        if (template) {
+            content = template.content
+        }
+
+        const parsed_template = JSON.parse(content);
         const sorted_rows = _.orderBy(parsed_template, ['row_number'], ['asc']);
 
         const resolved_template: TemplateItem[] = [];

@@ -50,9 +50,8 @@ let shopUrlPromise = _urlMapperService.getDomainUrls();
 shopUrlPromise.then((m) => _urlMap = m);
 
 const shopIdResolverMiddleware = (req: any, res: any, next: any) => {
-  console.log(_urlMap, req.headers.host);
-
   let shop_id: string = "c186a01b40e849d9987d03753b444cfd";
+  // let shop_id: string = "7e66c55433274852aae8f642ac48ff45";
 
   if (req.headers.host !== 'localhost:8000') {
     const mapped_shop_id = _.find(_urlMap, (o) => { return o.name === req.headers.host })?.value;
