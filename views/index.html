@@ -104,7 +104,7 @@
                 </div>
         </div><!-- End .cat-blocks-container -->
     </div><!-- End .container -->
-    <div class="mb-6"></div><!-- End .mb-4 -->
+    <div class="mb-5"></div><!-- End .mb-4 -->
     {% endif %}
 
     {% if row.type == 'banner' %}
@@ -127,7 +127,7 @@
             {% endfor%}
         </div><!-- End .row -->
     </div><!-- End .container -->
-    <div class="mb-6"></div><!-- End .mb-4 -->
+    <div class="mb-1"></div><!-- End .mb-4 -->
     {% endif %}
 
     {% if row.type == 'product_section' %}
@@ -137,7 +137,7 @@
                 <h2 class="title">{{row.title}}</h2><!-- End .title -->
             </div><!-- End .heading-left -->
 
-            <div class="heading-right">
+            <div class="heading-right view-all-link-top">
                 <a href="/products/catalog/{{row.data.slug}}" class="title-link">View All<i class="icon-long-arrow-right"></i></a>
             </div><!-- End .heading-right -->
         </div><!-- End .heading -->
@@ -184,8 +184,11 @@
                 {% endfor %}
             </div><!-- End .row -->
         </div><!-- End .products -->
+        <div class="heading-right d-flex justify-content-center view-all-link-bottom">
+            <a href="/products/catalog/{{row.data.slug}}" class="title-link">View All<i class="icon-long-arrow-right"></i></a>
+        </div><!-- End .heading-right -->
     </div><!-- End .container -->
-    <div class="mb-5"></div><!-- End .mb-4 -->
+    <div class="mb-2"></div><!-- End .mb-4 -->
     {% endif %}
     {% endfor %}
             

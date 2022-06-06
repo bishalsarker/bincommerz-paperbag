@@ -101,6 +101,26 @@
             font-weight: 600;
         }
 
+        .view-all-link-bottom {
+            display: none !important;
+        }
+
+        .view-all-link-top {
+            display: none !important;
+        }
+
+        @media (min-width: 992px) { 
+            .view-all-link-top {
+                display: flex !important;
+            }
+        }
+
+        @media (max-width: 992px) { 
+            .view-all-link-bottom {
+                display: flex !important;
+            }
+        }
+
         @media (max-width: 768px) {
             .tracking-item {
                 margin-left: 3rem;
