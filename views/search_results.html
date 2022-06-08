@@ -27,7 +27,75 @@
               <div class="toolbox">
                 <div class="toolbox-left">
                   <div class="toolbox-info">
-                    <!-- Showing <span>9 of 56</span> Products -->
+                    <button type="button" class="filter-btn btn btn-link" data-toggle="modal" data-target="#staticBackdrop">
+                      <i class="fas fa-filter fa-fw" aria-hidden="true"></i>Filter
+                    </button>
+                    <div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <aside class="col-lg-3 order-lg-first">
+                              <div class="sidebar sidebar-shop">
+                                <div class="widget widget-clean">
+                                  <button type="button" class="btn btn-outline-primary-2" style="margin-right: 15px;">
+                                    Clear All
+                                  </button>
+                                  <button type="button" class="btn btn-outline-primary-2" data-dismiss="modal" aria-label="Close">
+                                    Close
+                                  </button>
+                                </div><!-- End .widget widget-clean -->
+                
+                                <div class="widget widget-collapsible">
+                                  <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
+                                        Categories
+                                    </a>
+                                  </h3><!-- End .widget-title -->
+                
+                                <div class="collapse show" id="widget-1">
+                                  <div class="widget-body">
+                                    <div class="filter-items filter-items-count">
+                                      {% for category in page_data.categories %}
+                                      <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                          <input onclick="addCategoryFilter('{{category.slug}}')" type="checkbox" class="custom-control-input" id="{{category.slug}}">
+                                          <label class="custom-control-label" for="{{category.slug}}">{{category.name}}</label>
+                                        </div><!-- End .custom-checkbox -->
+                                      </div><!-- End .filter-item -->
+                                      {% endfor %}
+                                    </div><!-- End .filter-items -->
+                                  </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                                </div><!-- End .widget -->
+                
+                                <div class="widget widget-collapsible">
+                                    <h3 class="widget-title">
+                                      <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
+                                          Sub Categories
+                                      </a>
+                                    </h3><!-- End .widget-title -->
+                
+                                  <div class="collapse show" id="widget-1">
+                                    <div class="widget-body">
+                                      <div class="filter-items filter-items-count">
+                                        {% for category in page_data.subcategories %}
+                                        <div class="filter-item">
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="{{category.slug}}">
+                                            <label class="custom-control-label" for="{{category.slug}}">{{category.name}}</label>
+                                          </div><!-- End .custom-checkbox -->
+                                        </div><!-- End .filter-item -->
+                                        {% endfor %}
+                                      </div><!-- End .filter-items -->
+                                    </div><!-- End .widget-body -->
+                                  </div><!-- End .collapse -->
+                                </div><!-- End .widget -->
+                              </div><!-- End .sidebar sidebar-shop -->
+                            </aside><!-- End .col-lg-3 -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div><!-- End .toolbox-info -->
                 </div><!-- End .toolbox-left -->
 
@@ -106,7 +174,7 @@
           </ul>
       </nav>
             </div><!-- End .col-lg-9 -->
-            <aside class="col-lg-3 order-lg-first">
+            <aside class="col-lg-3 order-lg-first filter-sidebar">
               <div class="sidebar sidebar-shop">
                 <div class="widget widget-clean">
                   <label>Filters:</label>

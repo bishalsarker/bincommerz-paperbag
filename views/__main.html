@@ -109,15 +109,48 @@
             display: none !important;
         }
 
+        .filter-btn {
+            display: none !important;
+        }
+
+        .filter-sidebar {
+            display: none !important;
+        }
+
         @media (min-width: 992px) { 
             .view-all-link-top {
                 display: flex !important;
+            }
+
+            .filter-sidebar {
+                display: block !important;
             }
         }
 
         @media (max-width: 992px) { 
             .view-all-link-bottom {
                 display: flex !important;
+            }
+
+            .filter-btn {
+                display: block !important;
+            }
+
+            .toolbox {
+                display: block;
+            }
+
+            .toolbox-left {
+                float: left;
+            }
+
+            .toolbox-right {
+                margin-top: 0;
+                float: right;
+            }
+
+            .sidebar-shop .widget {
+                border-bottom: 0;
             }
         }
 
